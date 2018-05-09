@@ -7,7 +7,7 @@ module.exports = class BDD {
             host     : 'localhost',
             user     : 'root',
             password : '',
-            database : 'test'
+            database : 'royal_garden'
         });
 
         this.connection.connect(function(err) {

@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "module": "^1.2.5",
-    "mysql": "^2.15.0",
-    "mysqli": "^2.2.2"
+    "mysql": "^2.15.0"
   }
 }
