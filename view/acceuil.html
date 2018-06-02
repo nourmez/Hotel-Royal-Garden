@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Startmin - Bootstrap Admin Theme</title>
+    <title>Royal Garden</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -28,6 +28,8 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="../model/fct.js"></script>
+
 </head>
 <body>
 
@@ -36,87 +38,23 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">Dani</a>
+            <div id="monNom" style="color: white;size: 15px">
+                <a class="navbar-brand" href="index.html">
+                    <script>
+                        getName(function(err,data){
+                            if (err) {
+                                // error handling code goes here
+                                console.log(err);
+                            } else {
+                                // code to execute on data retrieval
+                                var outputDiv = document.getElementById('monNom');
+                                outputDiv.innerHTML = 'Bienvenue, ' + data;
+                            }
+                         });
+                    </script>
+                </a>
+            </div>
         </div>
-
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-
-        <ul class="nav navbar-right navbar-top-links">
-            <li class="dropdown navbar-inverse">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i> <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-comment fa-fw"></i> New Comment
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                <span class="pull-right text-muted small">12 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-tasks fa-fw"></i> New Task
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div>
-                                <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a class="text-center" href="#">
-                            <strong>See All Alerts</strong>
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> secondtruth <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <!-- /.navbar-top-links -->
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
@@ -124,7 +62,7 @@
                     <li>
                         <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
@@ -134,79 +72,19 @@
                                 <a href="morris.html">Morris.js Charts</a>
                             </li>
                         </ul>
-                        <!-- /.nav-second-level -->
+                        <!-- /.nav-second-level
+                    </li> -->
+                    <li>
+                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Menus</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Tarifs & TVA</a>
                     </li>
                     <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                        <a href="forms.html"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="panels-wells.html">Panels and Wells</a>
-                            </li>
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="icons.html"> Icons</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Second Level Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-third-level -->
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li class="active">
-                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="active" href="blank.html">Blank Page</a>
-                            </li>
-                            <li>
-                                <a href="login.html">Login Page</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
+                        <a href="#" id="deconnexion"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
                     </li>
                 </ul>
             </div>
@@ -220,7 +98,111 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Gestion des tables</h1>
+                    <h1 class="page-header">Tables et Couverts</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="tableau" border="1">
+                                        <thead>
+                                        <tr>
+                                            <th>Titre</th>
+                                            <th>Auteur</th>
+                                            <th>Jour</th>
+                                            <th>Mois</th>
+                                            <th>Année</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                    <script>
+                                        getLesReservtionsRestauration(function(err,data){
+                                            if (err) {
+                                                // error handling code goes here
+                                                console.log(err);
+                                            } else {
+                                                var tableau = document.getElementById("tableau");
+
+                                                console.log(data);
+                                                while(data){
+                                                    var ligne = tableau.insertRow(-1);//on a ajouté une ligne
+
+                                                    var colonne1 = ligne.insertCell(0);//on a une ajouté une cellule
+                                                    //colonne1.innerHTML += document.getElementById("titre").dat;//on y met le contenu de titre
+                                                    //colonne1.innerHTML = data[0].nomClient + data[0].prenomClient;//on y met le contenu de titre
+                                                }
+                                            }
+                                        });
+                                    </script>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Chambre</th>
+                                                <th>Table</th>
+                                                <th>Nb couvert</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Michel Corin</td>
+                                            <td>122</td>
+                                            <td>12</td>
+                                            <td>2</td>
+                                            <td>
+                                                <a id="edit1" title="Modifier"><i class="fa fa-edit fa-fw"></i></a>
+                                                <a id="supp1" title="Supprimer"> <i class="fa fa-close fa-fw"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Karim Houmar</td>
+                                            <td>47</td>
+                                            <td>5</td>
+                                            <td>4</td>
+                                            <td>
+                                                <a id="edit2" title="Modifier"><i class="fa fa-edit fa-fw"></i></a>
+                                                <a id="supp2" title="Supprimer"> <i class="fa fa-close fa-fw"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Laura Warner</td>
+                                            <td>65</td>
+                                            <td>20</td>
+                                            <td>4</td>
+                                            <td>
+                                                <a id="edit3" title="Modifier"><i class="fa fa-edit fa-fw"></i></a>
+                                                <a id="supp3" title="Supprimer"> <i class="fa fa-close fa-fw"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lydia Belkhirani</td>
+                                            <td>28</td>
+                                            <td>7</td>
+                                            <td>5</td>
+                                            <td>
+                                                <a id="edit4" title="Modifier"><i class="fa fa-edit fa-fw"></i></a>
+                                                <a id="supp4" title="Supprimer"> <i class="fa fa-close fa-fw"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Andres Balesteros</td>
+                                            <td>11</td>
+                                            <td>8</td>
+                                            <td>1</td>
+                                            <td>
+                                                <a id="edit5" title="Modifier"><i class="fa fa-edit fa-fw"></i></a>
+                                                <a id="supp5" title="Supprimer"> <i class="fa fa-close fa-fw"></i></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.table-responsive -->
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -244,6 +226,9 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="../js/startmin.js"></script>
+
+<!-- Import controller restauration -->
+<script src="../controller/c_restauration.js"></script>
 
 </body>
 </html>

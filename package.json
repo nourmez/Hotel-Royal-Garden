@@ -12,8 +12,8 @@
     "electron": "^2.0.0"
   },
   "dependencies": {
+    "cookies": "^0.7.1",
     "module": "^1.2.5",
-    "mysql": "^2.15.0",
-    "php": "0.0.1"
+    "mysql": "^2.15.0"
   }
 }
