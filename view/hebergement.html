@@ -57,10 +57,10 @@
                         <a href="hebergement.html" class="active"><i class="fa fa-dashboard fa-fw"></i> Tableaux de bord</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-book fa-fw"></i> Centrales de réservations</a>
+                        <a href="#"><i class="fa fa-book fa-fw"></i> Centrales de réservations</a>
                     </li>
                     <li>
-                        <a href="forms.html"><i class="fa fa-building fa-fw"></i> Agences de voyages</a>
+                        <a href="#"><i class="fa fa-building fa-fw"></i> Agences de voyages</a>
                     </li>
                     <li>
                         <a href="../index.html"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
@@ -83,40 +83,38 @@
                                 <a href=""><h3>Gestion des Centrals de réservaltions</h3></a>
                             </div>
                             <div class="panel-body">
-                                <table class="table">
+                                <table class="table" id="tableau">
                                     <thead>
                                     <tr>
                                         <th scope="col">Nombre de Chambre</th>
                                         <th scope="col">Type de Chambre</th>
                                         <th scope="col">Nombre de lit</th>
-                                        <th scope="col">Prix de Chambre</th>
                                         <th scope="col">Date d'entrer</th>
                                         <th scope="col">Date de sortie</th>
                                         <th scope="col">Nom et prénom de client</th>
                                         <th scope="col">Statut de reservation</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                    </tbody>
                                 </table>
+                                <script>
+                                    getLesReservtionsRestauration(function(err,data){
+                                        if (err) {
+                                            // error handling code goes here
+                                            console.log(err);
+                                        } else {
+                                            var tableau = document.getElementById("tableau");
+
+                                            console.log(data);
+                                            while(data){
+                                                var ligne = tableau.insertRow(-1);//on a ajouté une ligne
+
+                                                var colonne1 = ligne.insertCell(0);//on a une ajouté une cellule
+                                                //colonne1.innerHTML += document.getElementById("titre").dat;//on y met le contenu de titre
+                                                //colonne1.innerHTML = data[0].nomClient + data[0].prenomClient;//on y met le contenu de titre
+                                            }
+                                        }
+                                    });
+                                </script>
                             </div>
                         </div>
 
