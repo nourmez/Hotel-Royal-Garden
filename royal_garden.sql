@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1
+-- http://www.phpmyadmin.net
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 03 juin 2018 à 13:31
--- Version du serveur :  5.7.19
--- Version de PHP :  5.6.31
+-- Client :  localhost
+-- Généré le :  Ven 08 Juin 2018 à 12:15
+-- Version du serveur :  5.7.11
+-- Version de PHP :  5.6.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -28,14 +26,11 @@ SET time_zone = "+00:00";
 -- Structure de la table `agencevoyage`
 --
 
-DROP TABLE IF EXISTS `agencevoyage`;
-CREATE TABLE IF NOT EXISTS `agencevoyage` (
-  `id_agence` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `agencevoyage` (
+  `id_agence` int(11) NOT NULL,
   `nomAgence` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nbClientAgence` int(11) NOT NULL,
-  `id_employe` int(11) NOT NULL,
-  PRIMARY KEY (`id_agence`),
-  KEY `id_employe` (`id_employe`)
+  `id_employe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -44,15 +39,20 @@ CREATE TABLE IF NOT EXISTS `agencevoyage` (
 -- Structure de la table `agence_voyage`
 --
 
-DROP TABLE IF EXISTS `agence_voyage`;
-CREATE TABLE IF NOT EXISTS `agence_voyage` (
-  `id_agence` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `agence_voyage` (
+  `id_agence` int(11) NOT NULL,
   `nom_agence` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nbClientAgence` int(11) NOT NULL,
-  `id_employe` int(11) NOT NULL,
-  PRIMARY KEY (`id_agence`),
-  KEY `Id_employe` (`id_employe`)
+  `id_employe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Contenu de la table `agence_voyage`
+--
+
+INSERT INTO `agence_voyage` (`id_agence`, `nom_agence`, `nbClientAgence`, `id_employe`) VALUES
+(1, 'ag', 5, 2),
+(2, 'ag2', 6, 2);
 
 -- --------------------------------------------------------
 
@@ -60,16 +60,21 @@ CREATE TABLE IF NOT EXISTS `agence_voyage` (
 -- Structure de la table `chambre`
 --
 
-DROP TABLE IF EXISTS `chambre`;
-CREATE TABLE IF NOT EXISTS `chambre` (
-  `id_chambre` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `chambre` (
+  `id_chambre` int(11) NOT NULL,
   `typeChambre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nbLit` int(1) NOT NULL,
   `prixChambre` float NOT NULL,
-  `id_reservation` int(11) NOT NULL,
-  PRIMARY KEY (`id_chambre`),
-  KEY `id_reservation` (`id_reservation`)
+  `id_reservation` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Contenu de la table `chambre`
+--
+
+INSERT INTO `chambre` (`id_chambre`, `typeChambre`, `nbLit`, `prixChambre`, `id_reservation`) VALUES
+(1, 'lux', 2, 25, 1),
+(2, 'mo', 3, 256, NULL);
 
 -- --------------------------------------------------------
 
@@ -77,15 +82,19 @@ CREATE TABLE IF NOT EXISTS `chambre` (
 -- Structure de la table `client`
 --
 
-DROP TABLE IF EXISTS `client`;
-CREATE TABLE IF NOT EXISTS `client` (
-  `id_client` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `client` (
+  `id_client` int(11) NOT NULL,
   `nomClient` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prenomClient` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_agence` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_client`),
-  KEY `Id_agence` (`id_agence`)
+  `id_agence` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Contenu de la table `client`
+--
+
+INSERT INTO `client` (`id_client`, `nomClient`, `prenomClient`, `id_agence`) VALUES
+(1, 'clien', 'clien', 1);
 
 -- --------------------------------------------------------
 
@@ -93,12 +102,10 @@ CREATE TABLE IF NOT EXISTS `client` (
 -- Structure de la table `dessert`
 --
 
-DROP TABLE IF EXISTS `dessert`;
-CREATE TABLE IF NOT EXISTS `dessert` (
-  `id_dessert` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dessert` (
+  `id_dessert` int(11) NOT NULL,
   `nomDessert` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Ingredient_Entree` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_dessert`)
+  `Ingredient_Entree` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -107,17 +114,14 @@ CREATE TABLE IF NOT EXISTS `dessert` (
 -- Structure de la table `droitacces`
 --
 
-DROP TABLE IF EXISTS `droitacces`;
-CREATE TABLE IF NOT EXISTS `droitacces` (
-  `id_droit` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `droitacces` (
+  `id_droit` int(11) NOT NULL,
   `nomDroit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_pole` int(11) NOT NULL,
-  PRIMARY KEY (`id_droit`),
-  KEY `Id_pole` (`id_pole`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id_pole` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `droitacces`
+-- Contenu de la table `droitacces`
 --
 
 INSERT INTO `droitacces` (`id_droit`, `nomDroit`, `id_pole`) VALUES
@@ -130,9 +134,8 @@ INSERT INTO `droitacces` (`id_droit`, `nomDroit`, `id_pole`) VALUES
 -- Structure de la table `employe`
 --
 
-DROP TABLE IF EXISTS `employe`;
-CREATE TABLE IF NOT EXISTS `employe` (
-  `id_employe` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `employe` (
+  `id_employe` int(11) NOT NULL,
   `nomEmploye` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prenomEmploye` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `adresseEmploye` varchar(2555) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -141,14 +144,11 @@ CREATE TABLE IF NOT EXISTS `employe` (
   `loginEmploye` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mdpEmploye` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_droit` int(11) NOT NULL,
-  `id_pole` int(11) NOT NULL,
-  PRIMARY KEY (`id_employe`),
-  KEY `Id_droit` (`id_droit`),
-  KEY `Id_pole` (`id_pole`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id_pole` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `employe`
+-- Contenu de la table `employe`
 --
 
 INSERT INTO `employe` (`id_employe`, `nomEmploye`, `prenomEmploye`, `adresseEmploye`, `dateEmpoche`, `posteEmploye`, `loginEmploye`, `mdpEmploye`, `id_droit`, `id_pole`) VALUES
@@ -161,12 +161,10 @@ INSERT INTO `employe` (`id_employe`, `nomEmploye`, `prenomEmploye`, `adresseEmpl
 -- Structure de la table `entree`
 --
 
-DROP TABLE IF EXISTS `entree`;
-CREATE TABLE IF NOT EXISTS `entree` (
-  `id_entree` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `entree` (
+  `id_entree` int(11) NOT NULL,
   `nomEntree` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Ingredient_Entree` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_entree`)
+  `Ingredient_Entree` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -175,20 +173,14 @@ CREATE TABLE IF NOT EXISTS `entree` (
 -- Structure de la table `menu`
 --
 
-DROP TABLE IF EXISTS `menu`;
-CREATE TABLE IF NOT EXISTS `menu` (
-  `id_menu` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `menu` (
+  `id_menu` int(11) NOT NULL,
   `nomMenu` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_PD` int(11) DEFAULT NULL,
   `id_plat` int(11) DEFAULT NULL,
   `id_entree` int(11) DEFAULT NULL,
   `id_dessert` int(11) DEFAULT NULL,
-  `prixMenu` float NOT NULL,
-  PRIMARY KEY (`id_menu`),
-  KEY `Id_Entree` (`id_entree`),
-  KEY `Id_plat` (`id_plat`),
-  KEY `service divers_ibfk_3` (`id_PD`),
-  KEY `service divers_ibfk_4` (`id_dessert`)
+  `prixMenu` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -197,16 +189,13 @@ CREATE TABLE IF NOT EXISTS `menu` (
 -- Structure de la table `notehotel`
 --
 
-DROP TABLE IF EXISTS `notehotel`;
-CREATE TABLE IF NOT EXISTS `notehotel` (
+CREATE TABLE `notehotel` (
   `id_noteHotel` int(11) NOT NULL,
   `noteSpa` int(1) NOT NULL,
   `noteRestaurant` int(1) NOT NULL,
   `noteReception` int(1) NOT NULL,
   `dateNote` date NOT NULL,
-  `id_client` int(11) NOT NULL,
-  PRIMARY KEY (`id_noteHotel`),
-  KEY `Id_client` (`id_client`)
+  `id_client` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -215,14 +204,11 @@ CREATE TABLE IF NOT EXISTS `notehotel` (
 -- Structure de la table `paniermoyen`
 --
 
-DROP TABLE IF EXISTS `paniermoyen`;
-CREATE TABLE IF NOT EXISTS `paniermoyen` (
-  `id_panier` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `paniermoyen` (
+  `id_panier` int(11) NOT NULL,
   `datePanier` date NOT NULL,
   `totalPanier` float NOT NULL,
-  `id_employe` int(11) NOT NULL,
-  PRIMARY KEY (`id_panier`),
-  KEY `Id_employe` (`id_employe`)
+  `id_employe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -231,12 +217,10 @@ CREATE TABLE IF NOT EXISTS `paniermoyen` (
 -- Structure de la table `petitdejeuner`
 --
 
-DROP TABLE IF EXISTS `petitdejeuner`;
-CREATE TABLE IF NOT EXISTS `petitdejeuner` (
-  `id_PD` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `petitdejeuner` (
+  `id_PD` int(11) NOT NULL,
   `nomPD` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Ingredient_PD` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_PD`)
+  `Ingredient_PD` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -245,12 +229,10 @@ CREATE TABLE IF NOT EXISTS `petitdejeuner` (
 -- Structure de la table `plat`
 --
 
-DROP TABLE IF EXISTS `plat`;
-CREATE TABLE IF NOT EXISTS `plat` (
-  `id_plat` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `plat` (
+  `id_plat` int(11) NOT NULL,
   `nomPlat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Ingredient_plat` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_plat`)
+  `Ingredient_plat` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -259,15 +241,13 @@ CREATE TABLE IF NOT EXISTS `plat` (
 -- Structure de la table `pole`
 --
 
-DROP TABLE IF EXISTS `pole`;
-CREATE TABLE IF NOT EXISTS `pole` (
-  `id_pole` int(11) NOT NULL AUTO_INCREMENT,
-  `nomPole` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_pole`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `pole` (
+  `id_pole` int(11) NOT NULL,
+  `nomPole` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `pole`
+-- Contenu de la table `pole`
 --
 
 INSERT INTO `pole` (`id_pole`, `nomPole`) VALUES
@@ -281,16 +261,12 @@ INSERT INTO `pole` (`id_pole`, `nomPole`) VALUES
 -- Structure de la table `rapport`
 --
 
-DROP TABLE IF EXISTS `rapport`;
-CREATE TABLE IF NOT EXISTS `rapport` (
-  `id_rapport` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rapport` (
+  `id_rapport` int(11) NOT NULL,
   `typeRapport` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `messageRapport` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_pole` int(11) NOT NULL,
-  `id_employe` int(11) NOT NULL,
-  PRIMARY KEY (`id_rapport`),
-  KEY `Id_employe` (`id_employe`),
-  KEY `Id_pole` (`id_pole`)
+  `id_employe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -299,21 +275,24 @@ CREATE TABLE IF NOT EXISTS `rapport` (
 -- Structure de la table `reservation`
 --
 
-DROP TABLE IF EXISTS `reservation`;
-CREATE TABLE IF NOT EXISTS `reservation` (
-  `id_reservation` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `reservation` (
+  `id_reservation` int(11) NOT NULL,
   `typeResarvation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prixReservation` float NOT NULL,
-  `annulationReservation` tinyint(1) NOT NULL,
-  `dateDebut` date NOT NULL,
-  `dateFin` date NOT NULL,
+  `annulationReservation` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dateDebut` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dateFin` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_client` int(11) NOT NULL,
   `id_pole` int(11) NOT NULL,
-  `id_employe` int(11) NOT NULL,
-  PRIMARY KEY (`id_reservation`),
-  KEY `Id_employe` (`id_employe`),
-  KEY `Id_pole` (`id_pole`)
+  `id_employe` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Contenu de la table `reservation`
+--
+
+INSERT INTO `reservation` (`id_reservation`, `typeResarvation`, `prixReservation`, `annulationReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe`) VALUES
+(1, 'champ', 25, 'ok', '2018-06-08', '2018-07-07', 1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -321,17 +300,13 @@ CREATE TABLE IF NOT EXISTS `reservation` (
 -- Structure de la table `restaurant`
 --
 
-DROP TABLE IF EXISTS `restaurant`;
-CREATE TABLE IF NOT EXISTS `restaurant` (
-  `id_restaurant` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `restaurant` (
+  `id_restaurant` int(11) NOT NULL,
   `id_menu` int(11) NOT NULL,
   `dateConceptionMenu` date NOT NULL,
   `nbTable` int(11) NOT NULL,
   `nbCouvert` int(11) NOT NULL,
-  `id_reservation` int(11) NOT NULL,
-  PRIMARY KEY (`id_restaurant`),
-  KEY `Id_menu` (`id_menu`),
-  KEY `Id_reservation` (`id_reservation`)
+  `id_reservation` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -340,17 +315,13 @@ CREATE TABLE IF NOT EXISTS `restaurant` (
 -- Structure de la table `servicedivers`
 --
 
-DROP TABLE IF EXISTS `servicedivers`;
-CREATE TABLE IF NOT EXISTS `servicedivers` (
-  `id_service` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `servicedivers` (
+  `id_service` int(11) NOT NULL,
   `nomService` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dateService` date NOT NULL,
   `typeService` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_client` int(11) NOT NULL,
-  `id_employe` int(11) NOT NULL,
-  PRIMARY KEY (`id_service`),
-  KEY `Id_employe` (`id_employe`),
-  KEY `service divers_ibfk_2` (`id_client`)
+  `id_employe` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -359,20 +330,252 @@ CREATE TABLE IF NOT EXISTS `servicedivers` (
 -- Structure de la table `stock`
 --
 
-DROP TABLE IF EXISTS `stock`;
-CREATE TABLE IF NOT EXISTS `stock` (
-  `id_stock` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `stock` (
+  `id_stock` int(11) NOT NULL,
   `nomStock` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `qteStock` int(11) NOT NULL,
   `id_employe` int(11) NOT NULL,
-  `id_pole` int(11) NOT NULL,
-  PRIMARY KEY (`id_stock`),
-  KEY `Id_employe` (`id_employe`),
-  KEY `Id_pole` (`id_pole`)
+  `id_pole` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Contraintes pour les tables déchargées
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `agencevoyage`
+--
+ALTER TABLE `agencevoyage`
+  ADD PRIMARY KEY (`id_agence`),
+  ADD KEY `id_employe` (`id_employe`);
+
+--
+-- Index pour la table `agence_voyage`
+--
+ALTER TABLE `agence_voyage`
+  ADD PRIMARY KEY (`id_agence`),
+  ADD KEY `Id_employe` (`id_employe`);
+
+--
+-- Index pour la table `chambre`
+--
+ALTER TABLE `chambre`
+  ADD PRIMARY KEY (`id_chambre`),
+  ADD KEY `id_reservation` (`id_reservation`);
+
+--
+-- Index pour la table `client`
+--
+ALTER TABLE `client`
+  ADD PRIMARY KEY (`id_client`),
+  ADD KEY `Id_agence` (`id_agence`);
+
+--
+-- Index pour la table `dessert`
+--
+ALTER TABLE `dessert`
+  ADD PRIMARY KEY (`id_dessert`);
+
+--
+-- Index pour la table `droitacces`
+--
+ALTER TABLE `droitacces`
+  ADD PRIMARY KEY (`id_droit`),
+  ADD KEY `Id_pole` (`id_pole`);
+
+--
+-- Index pour la table `employe`
+--
+ALTER TABLE `employe`
+  ADD PRIMARY KEY (`id_employe`),
+  ADD KEY `Id_droit` (`id_droit`),
+  ADD KEY `Id_pole` (`id_pole`);
+
+--
+-- Index pour la table `entree`
+--
+ALTER TABLE `entree`
+  ADD PRIMARY KEY (`id_entree`);
+
+--
+-- Index pour la table `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id_menu`),
+  ADD KEY `Id_Entree` (`id_entree`),
+  ADD KEY `Id_plat` (`id_plat`),
+  ADD KEY `service divers_ibfk_3` (`id_PD`),
+  ADD KEY `service divers_ibfk_4` (`id_dessert`);
+
+--
+-- Index pour la table `notehotel`
+--
+ALTER TABLE `notehotel`
+  ADD PRIMARY KEY (`id_noteHotel`),
+  ADD KEY `Id_client` (`id_client`);
+
+--
+-- Index pour la table `paniermoyen`
+--
+ALTER TABLE `paniermoyen`
+  ADD PRIMARY KEY (`id_panier`),
+  ADD KEY `Id_employe` (`id_employe`);
+
+--
+-- Index pour la table `petitdejeuner`
+--
+ALTER TABLE `petitdejeuner`
+  ADD PRIMARY KEY (`id_PD`);
+
+--
+-- Index pour la table `plat`
+--
+ALTER TABLE `plat`
+  ADD PRIMARY KEY (`id_plat`);
+
+--
+-- Index pour la table `pole`
+--
+ALTER TABLE `pole`
+  ADD PRIMARY KEY (`id_pole`);
+
+--
+-- Index pour la table `rapport`
+--
+ALTER TABLE `rapport`
+  ADD PRIMARY KEY (`id_rapport`),
+  ADD KEY `Id_employe` (`id_employe`),
+  ADD KEY `Id_pole` (`id_pole`);
+
+--
+-- Index pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD PRIMARY KEY (`id_reservation`),
+  ADD KEY `Id_employe` (`id_employe`),
+  ADD KEY `Id_pole` (`id_pole`),
+  ADD KEY `id_client` (`id_client`);
+
+--
+-- Index pour la table `restaurant`
+--
+ALTER TABLE `restaurant`
+  ADD PRIMARY KEY (`id_restaurant`),
+  ADD KEY `Id_menu` (`id_menu`),
+  ADD KEY `Id_reservation` (`id_reservation`);
+
+--
+-- Index pour la table `servicedivers`
+--
+ALTER TABLE `servicedivers`
+  ADD PRIMARY KEY (`id_service`),
+  ADD KEY `Id_employe` (`id_employe`),
+  ADD KEY `service divers_ibfk_2` (`id_client`);
+
+--
+-- Index pour la table `stock`
+--
+ALTER TABLE `stock`
+  ADD PRIMARY KEY (`id_stock`),
+  ADD KEY `Id_employe` (`id_employe`),
+  ADD KEY `Id_pole` (`id_pole`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `agencevoyage`
+--
+ALTER TABLE `agencevoyage`
+  MODIFY `id_agence` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `agence_voyage`
+--
+ALTER TABLE `agence_voyage`
+  MODIFY `id_agence` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `chambre`
+--
+ALTER TABLE `chambre`
+  MODIFY `id_chambre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT pour la table `client`
+--
+ALTER TABLE `client`
+  MODIFY `id_client` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT pour la table `dessert`
+--
+ALTER TABLE `dessert`
+  MODIFY `id_dessert` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `droitacces`
+--
+ALTER TABLE `droitacces`
+  MODIFY `id_droit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `employe`
+--
+ALTER TABLE `employe`
+  MODIFY `id_employe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `entree`
+--
+ALTER TABLE `entree`
+  MODIFY `id_entree` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `paniermoyen`
+--
+ALTER TABLE `paniermoyen`
+  MODIFY `id_panier` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `petitdejeuner`
+--
+ALTER TABLE `petitdejeuner`
+  MODIFY `id_PD` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `plat`
+--
+ALTER TABLE `plat`
+  MODIFY `id_plat` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `pole`
+--
+ALTER TABLE `pole`
+  MODIFY `id_pole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT pour la table `rapport`
+--
+ALTER TABLE `rapport`
+  MODIFY `id_rapport` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `reservation`
+--
+ALTER TABLE `reservation`
+  MODIFY `id_reservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `restaurant`
+--
+ALTER TABLE `restaurant`
+  MODIFY `id_restaurant` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `servicedivers`
+--
+ALTER TABLE `servicedivers`
+  MODIFY `id_service` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `stock`
+--
+ALTER TABLE `stock`
+  MODIFY `id_stock` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Contraintes pour les tables exportées
 --
 
 --
@@ -385,7 +588,7 @@ ALTER TABLE `agence_voyage`
 -- Contraintes pour la table `chambre`
 --
 ALTER TABLE `chambre`
-  ADD CONSTRAINT `chambre_ibfk_1` FOREIGN KEY (`id_reservation`) REFERENCES `reservation` (`id_reservation`);
+  ADD CONSTRAINT `chambre_ibfk_1` FOREIGN KEY (`id_reservation`) REFERENCES `reservation` (`id_reservation`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Contraintes pour la table `client`
@@ -438,8 +641,9 @@ ALTER TABLE `rapport`
 -- Contraintes pour la table `reservation`
 --
 ALTER TABLE `reservation`
-  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`id_employe`) REFERENCES `employe` (`id_employe`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`id_pole`) REFERENCES `pole` (`id_pole`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`id_employe`) REFERENCES `employe` (`id_employe`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`id_pole`) REFERENCES `pole` (`id_pole`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `restaurant`
@@ -461,7 +665,6 @@ ALTER TABLE `servicedivers`
 ALTER TABLE `stock`
   ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`id_employe`) REFERENCES `employe` (`id_employe`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`id_pole`) REFERENCES `pole` (`id_pole`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
