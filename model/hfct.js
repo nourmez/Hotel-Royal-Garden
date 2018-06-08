@@ -23,7 +23,7 @@ function lesReservations() {
         else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th>'+rows[i].id_chambre+'</th><th>'+rows[i].typeChambre+'</th><th>'+rows[i].nbLit+'</th><th>'+rows[i].dateDebut+'</th><th>'+rows[i].dateFin+'</th><th>'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th>'+rows[i].annulationReservation+'</th><th><a href="#"><input type="button" name="modifier" value="Modifier"></a> <button onclick="supprimeReservation('+rows[i].id_reservation+')">Supprimer</button></th></tr>';
+                tab= tab+'<tr><th id="">'+rows[i].id_chambre+'</th><th id="">'+rows[i].typeChambre+'</th><th id="">'+rows[i].nbLit+'</th><th id="">'+rows[i].dateDebut+'</th><th id="">'+rows[i].dateFin+'</th><th id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th id="">'+rows[i].annulationReservation+'</th><th id=""><a href="#"><input type="button" name="modifier" value="Modifier"></a> <button onclick="supprimeReservation('+rows[i].id_reservation+')">Supprimer</button></th></tr>';
             }
             return document.getElementById('tableaureservation').innerHTML = tab;
         }
