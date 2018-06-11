@@ -6,7 +6,7 @@ module.exports = class BDD {
         this.connection = mysql.createConnection({
             host     : 'localhost',
             user     : 'root',
-            password : 'GADDelta15122013',
+            password : '',
             database : 'royal_garden'
         });
 
