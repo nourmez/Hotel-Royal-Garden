@@ -280,6 +280,21 @@ function getName(callback)
     });
 }
 
+function getStats(callback)
+{
+    //query = "SELECT `nomEmploye` FROM `employe` WHERE `loginEmploye`='"+login+"'";
+    query = "SELECT `nomEmploye` FROM `employe` WHERE `loginEmploye`='dpinto'";
+    bdd.connection.query(query, function(err, result)
+
+    {
+        if (err)
+            callback(err,null);
+        else
+            callback(null,result[0].nomEmploye);
+
+    });
+}
+
 function deconnexion(){
     window.location.href="../index.html";
 };

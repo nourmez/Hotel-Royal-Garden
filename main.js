@@ -18,7 +18,7 @@ function createWindow () {
         width: 1280,
         height: 800,
         resizable: false,
-        icon: path.join(__dirname, 'assets/icons/png/64x64.icns')
+        icon: __dirname + './assets/test.icns'
     })
 
     // and load the index.html of the app.

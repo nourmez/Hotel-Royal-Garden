@@ -8,6 +8,12 @@ body {
     background-color: #f8f8f8;
 }
 
+#chartdiv {
+    width		: 20%;
+    height		: 220px;
+    font-size	: 2px;
+}
+
 #wrapper {
     width: 100%;
 }
