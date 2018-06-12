@@ -71,19 +71,25 @@ function supprimeReservation(argument) {
     return window.location.reload();
 }
 function modifGestionAgences(argument){
-    querygetAgence = "SELECT * FROM agence_voyage WHERE id_agence="+argument+";
+    window.location ='modifGestionAgences.html';
+    querygetAgence = "SELECT * FROM agence_voyage WHERE id_agence="+argument;
     bdd.connection.query(querygetAgence, function (err, rows) {
         if (err) {
             console.log("Problème de récupération des données des agences voyage.");
             console.log(err);
             return;
         }
-        else {}
-    }
+        else {
+            document.getElementById('aNombre').innerHTML = document.getElementById('aNombre').value = rows[0].id_agence;
+            document.getElementById('aNom').value = rows[0].nom_agence;
+            document.getElementById('cNombre').value = rows[0].nbClientAgence;
+        }
+    })
 
 }
 
 function modifReservationChambre(argument){
+
 
     querygetReservtion= "SELECT cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre,   r.annulationReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation ="+argument+" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
 
@@ -96,5 +102,5 @@ function modifReservationChambre(argument){
         }
         else {
         }
-    }
+    })
 }
