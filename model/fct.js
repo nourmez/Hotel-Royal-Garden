@@ -99,6 +99,7 @@ function getLesReservtionsRestauration(callback) {
 //Permet de créer un nouveau menu dans la base de données
 function creerMenu() {
 
+    //TODO:Recup les bonnes valeurs
     var entree      = document.getElementsByName('entree')[0].value;
     var plat        = document.getElementsByName('plat')[0].value;
     var dessert     = document.getElementsByName('dessert')[0].value;
