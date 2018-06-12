@@ -4,12 +4,19 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
   },
-  "author": "",
+  "build":{
+    "appId": "royal.garden",
+    "productName": "Royal Garden"
+  },
+  "author": "PINTO Dani",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^2.0.0"
+    "electron": "^2.0.2",
+    "electron-packager": "^12.1.0"
   },
   "dependencies": {
     "cookies": "^0.7.1",

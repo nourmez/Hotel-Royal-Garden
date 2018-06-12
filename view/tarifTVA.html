@@ -50,7 +50,7 @@
                                 var outputDiv = document.getElementById('monNom');
                                 outputDiv.innerHTML = 'Bienvenue, ' + data;
                             }
-                         });
+                        });
                     </script>
                 </a>
             </div>
@@ -107,7 +107,7 @@
                                 <div class="table-responsive">
                                     <div id="ligneTab">
                                         <script>
-                                            getLesReservtionsRestauration(function(err,data){
+                                            getLesMenu(function(err,data){
                                                 if (err) {
                                                     // error handling code goes here
                                                     console.log(err);
@@ -115,41 +115,26 @@
                                                     var ligne = document.getElementById('ligneTab');
                                                     var contenu;
 
-                                                    /*
-                                                    ligne.innerHTML='<table class="table">' +
-                                                                        '<thead>' +
-                                                                            '<tr>' +
-                                                                                '<th>Nom</th>' +
-                                                                                '<th>Prenom</th>' +
-                                                                                '<th>nbLit</th>' +
-                                                                                '<th>nbTable</th>' +
-                                                                                '<th>nbCouvert</th>' +
-                                                                            '</tr>' +
-                                                                        '</thead>';
-                                                                        */
                                                     contenu ='<table class="table">' +
-                                                                    '<thead>' +
-                                                                        '<tr>' +
-                                                                            '<th>Nom</th>' +
-                                                                            '<th>Numéro de chambre</th>' +
-                                                                            '<th>Numéro de table</th>' +
-                                                                            '<th>Nombre de couvert</th>' +
-                                                                        '</tr>' +
-                                                                    '</thead>' +
-                                                                    '<tbody>';
+                                                        '<thead>' +
+                                                        '<tr>' +
+                                                        '<th>Menu</th>' +
+                                                        '<th>Entree</th>' +
+                                                        '<th>Plat</th>' +
+                                                        '<th>Dessert</th>' +
+                                                        '<th>Prix</th>' +
+                                                        '</tr>' +
+                                                        '</thead>' +
+                                                        '<tbody>';
 
                                                     for(var i= 0; i < data.length; i++)
                                                     {
                                                         contenu += '<tr>';
-                                                        contenu += '<td>' + data[i].nomClient;
-                                                        contenu += ' ' + data[i].prenomClient + '</td>';
-                                                        contenu += '<td>' + data[i].nbLit + '</td>';
-                                                        contenu += '<td>' + data[i].nbTable + '</td>';
-                                                        contenu += '<td>' + data[i].nbCouvert + '</td>';
-                                                        contenu += '<td>';
-                                                        contenu += "<a id='edit1' onclick='modifierRéservationRestauration("+ data[i].id_reservation +")' title='Modifier cette réservation'><i class='fa fa-edit fa-fw'></i></a> ";
-                                                        contenu += "<a onclick='supprimerRéservationRestauration("+ data[i].id_reservation +")' id='supp1' title='Supprimer cette réservationee'> <i class='fa fa-close fa-fw'></i></a>";
-                                                        contenu += '</td>';
+                                                        contenu += '<td>' + data[i].nomMenu + '</td>';
+                                                        contenu += '<td>' + data[i].nomEntree + '</td>';
+                                                        contenu += '<td>' + data[i].nomPlat + '</td>';
+                                                        contenu += '<td>' + data[i].nomDessert + '</td>';
+                                                        contenu += '<td>' + data[i].prixMenu + '</td>';
                                                         contenu += '</tr>';
                                                     }
 
