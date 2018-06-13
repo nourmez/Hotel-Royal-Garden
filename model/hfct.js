@@ -60,7 +60,6 @@ function supprimeAgences(argument) {
     }
     return window.location.reload();
 }
-
 function supprimeReservation(argument) {
     if(confirm("Voulez vous vraiment supprimer cette reservation ?")){
 
@@ -70,28 +69,38 @@ function supprimeReservation(argument) {
     }
     return window.location.reload();
 }
-function modifGestionAgences(argument){
-    window.location ='modifGestionAgences.html';
-    querygetAgence = "SELECT * FROM agence_voyage WHERE id_agence="+argument;
-    bdd.connection.query(querygetAgence, function (err, rows) {
-        if (err) {
-            console.log("Problème de récupération des données des agences voyage.");
-            console.log(err);
-            return;
-        }
-        else {
-            document.getElementById('aNombre').innerHTML = document.getElementById('aNombre').value = rows[0].id_agence;
-            document.getElementById('aNom').value = rows[0].nom_agence;
-            document.getElementById('cNombre').value = rows[0].nbClientAgence;
-        }
-    })
 
+function modifGestionAgences(argument){
+        if(confirm("Voulez vous vraiment modifier cette agence ?")){
+            sessionStorage.setItem('idAgences', argument);
+            window.location.href ='modifGestionAgences.html';
+        }
+}
+function modifGestionAgencesM(){
+       querygetAgence = "SELECT * FROM agence_voyage WHERE id_agence="+sessionStorage.getItem('idAgences');
+            bdd.connection.query(querygetAgence, function (err, rows) {
+                if (err) {
+                    console.log("Problème de récupération des données des agences voyage.");
+                    console.log(err);
+                    return;
+                }
+                else {
+                    document.getElementById('aNombre').value = rows[0].id_agence;
+                    document.getElementById('aNom').value = rows[0].nom_agence;
+                    document.getElementById('cNombre').value = rows[0].nbClientAgence;
+                }
+})
 }
 
 function modifReservationChambre(argument){
+if(confirm("Voulez vous vraiment modifier cette réservation ?")){
+            sessionStorage.setItem('idChambre', argument);
+        }
+        window.location.href ='modifReservationChambre.html';
+}
+function modifReservationChambreM(){
 
-
-    querygetReservtion= "SELECT cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre,   r.annulationReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation ="+argument+" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
+    querygetReservtion= "SELECT cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre,   r.annulationReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation ="+sessionStorage.getItem('idChambre')+" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
 
     bdd.connection.query(querygetReservtion, function (err, rows) {
 
@@ -101,6 +110,45 @@ function modifReservationChambre(argument){
             return;
         }
         else {
+            document.getElementById('cNombre').value = rows[0].id_chambre;
+            document.getElementById('cType').value = rows[0].typeChambre;
+            document.getElementById('lNombre').value = rows[0].nbLit;
+            document.getElementById('eDate').value = rows[0].dateDebut;
+            document.getElementById('sDate').value = rows[0].dateFin;
+            document.getElementById('nClient').value = rows[0].nomClient;
+            document.getElementById('pClient').value = rows[0].prenomClient;
+            document.getElementById('sReservation').value = rows[0].annulationReservation;
         }
+    })
+}
+
+function modifAgences(){
+    queryModification="UPDATE agence_voyage SET `nom_agence`='"+ document.getElementById('aNom').value +"',`nbClientAgence`="+ document.getElementById('cNombre').value+"WHERE `id_reservation`=" +document.getElementById('aNombre').value;
+
+    bdd.connection.query(queryModification, function (err, rows) {
+    if (err) {
+       console.log("Problème de modification de la réservation.");
+       console.log(err);
+       return;
+    }else{
+       console.log("Modification de la réservation avec succès.");
+       window.location.href ='gestionAgences.html';
+    }
+    })
+}
+function modifChambre(){
+    queryModificationC="UPDATE reservation r, pole p,  employe e, chambre ch, client cl SET cl.nomClient='"+document.getElementById('nClient').value +"', cl.prenomClient='"+document.getElementById('pClient').value +"', ch.nbLit='"+document.getElementById('lNombre').value +"', ch.typeChambre='"+document.getElementById('cType').value +"', r.annulationReservation='"+document.getElementById('sReservation').value +"', r.dateDebut='"+document.getElementById('eDate').value +"', r.dateFin='"+document.getElementById('sDate').value +"' WHERE r.id_reservation="+sessionStorage.getItem('idChambre')+" AND ch.id_chambre="+document.getElementById('cNombre').value +" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
+
+    bdd.connection.query(queryModificationC, function (err, rows) {
+    if (err) {
+       console.log("Problème de modification de la réservation.");
+       console.log(err);
+       return;
+    }
+    else{
+       console.log("Modification de la réservation avec succès.");
+       window.location.href ='centralReservationChambre.html';
+       return;
+    }
     })
 }

@@ -86,7 +86,7 @@
                                 <form method="post" action="">
                                     <label>Nombre de Chambre :</label> <input type="text" name="cNombre" id="cNombre" value="" disabled/>
                                 </br>
-                                    <label>Type de Chambre :</label> <input type="text" name="cType" value="">
+                                    <label>Type de Chambre :</label> <input type="text" name="cType" id="cType" value="">
                                 </br>
 
                                     <label>Nombre de lit :</label> <input type="text" name="lNombre" id="lNombre" value="">
@@ -106,8 +106,8 @@
 
                                     <label>Statut de reservation :</label> <input type="text" name="sReservation" id="sReservation" value="">
                                 </br>
-                                    <button>Modifier</button>
-                                    <button>Annuler</button>
+                                    <button type="submit" onclick="modifChambre()">Modifier</button>
+                                    <a href="centralReservationChambre.html"><input type="button" value="Annuler"></a>
                                 </form>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
         <!-- /#page-wrapper -->
     <script>
         getName();
-        lesReservations();
+        modifReservationChambreM();
 
     </script>
 </body>
