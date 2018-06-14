@@ -145,7 +145,7 @@ function modifAgences(){
             }
         });
     }else{
-        console.log('Erreur');
+        console.log('Modification annulée !');
     }
 
     //bdd.connection.end();
