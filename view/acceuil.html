@@ -36,28 +36,14 @@
     <script src="../model/fct.js"></script>
 
     <script>
-        var chart = AmCharts.makeChart( "chartdiv", {
-            "type": "pie",
-            "theme": "light",
-            "colors": ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"],
-            "dataProvider": [ {
-                "title": "New",
-                "value": 4852
-            }, {
-                "title": "Returning",
-                "value": 9899
-            } ],
-            "titleField": "title",
-            "valueField": "value",
-            "labelRadius": 1,
-
-            "radius": "20%",
-            "innerRadius": "60%",
-            "labelText": "[[title]]",
-            "export": {
-                "enabled": false
+        getStatsNbCouvert(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data);
             }
-        } );
+        });
     </script>
 
 </head>
@@ -111,7 +97,7 @@
                         <a href="tarifTVA.html"><i class="fa fa-edit fa-fw"></i> Tarifs & TVA</a>
                     </li>
                     <li>
-                        <a href="#.html"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes</a>
+                        <a href="alertes.html"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes</a>
                     </li>
                     <li>
                         <a href="#" onclick="deconnexion()" id="deconnexion"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
