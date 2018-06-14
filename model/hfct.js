@@ -123,10 +123,14 @@ function modifReservationChambreM(){
 }
 
 function modifAgences(){
-    queryModification="UPDATE agence_voyage SET `nom_agence`='"+ document.getElementById('aNom').value +"',`nbClientAgence`="+ document.getElementById('cNombre').value+" WHERE `id_agence`=" +document.getElementById('aNombre').value;
+    var nomAgence = document.getElementById('aNom').value;
+    var nbClientAgence = document.getElementById('cNombre').value;
+    var idAgence = document.getElementById('aNombre').value;
+
+    queryModification="UPDATE agence_voyage SET `nom_agence`='"+ nomAgence +"',`nbClientAgence`="+ nbClientAgence +" WHERE `id_agence`=" + idAgence + ";";
 
     alert(queryModification);
-    bdd.connection.query($queryModification, function (err, rows) {
+    bdd.connection.query(queryModification, function (err, rows) {
         if (err) {
            console.log("Problème de modification de la réservation.");
            console.log(err);
