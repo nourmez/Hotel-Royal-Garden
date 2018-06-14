@@ -104,7 +104,6 @@ function getLesReservtionsRestauration(callback)
 function creerMenu()
 {
 
-    //TODO:Recup les bonnes valeurs
     var lesEntrees = document.getElementsByName('entree');
     var entree;
     for(var i = 0; i < lesEntrees.length; i++){
@@ -129,11 +128,6 @@ function creerMenu()
         }
     }
 
-    /*
-    var entree      = document.getElementsByName('entree')[0].value;
-    var plat        = document.getElementsByName('plat')[0].value;
-    var dessert     = document.getElementsByName('dessert')[0].value;
-    */
     var nomMenu     = document.getElementsByName('nomDuMenu')[0].value;
     var prixMenu    = document.getElementsByName('prixDuMenu')[0].value;
 
