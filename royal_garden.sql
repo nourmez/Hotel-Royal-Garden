@@ -37,10 +37,10 @@ CREATE TABLE `agenceVoyage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Contenu de la table `agence_voyage`
+-- Contenu de la table `agenceVoyage`
 --
 
-INSERT INTO `agence_voyage` (`id_agence`, `nom_agence`,`responsableAgence`,`mailAgence`, `nbClientAgence`,`telephoneAgence`,`id_employe`) VALUES
+INSERT INTO `agenceVoyage` (`id_agence`, `nomAgence`,`responsableAgence`,`mailAgence`, `nbClientAgence`,`telephoneAgence`,`id_employe`) VALUES
 (1, 'ag', 'agr', 'af@ag.com', 5,'0123456789', 2),
 (2, 'ag2','agr2', 'af2@ag.com', 6,'0123456789', 2);
 
@@ -345,8 +345,8 @@ INSERT INTO `reservation` (`id_reservation`, `typeResarvation`, `prixReservation
 (1, 'Restaurant', 120, 0, '2018-05-21', '2018-05-21', 1, 1, 1),
 (2, 'TEST', 200, 0, '2018-05-21', '2018-05-22', 2, 1, 1),
 (3, 'JsaisPas', 124, 0, '2018-05-21', '2018-05-22', 3, 1, 2),
-(4, 'JsaisPas', 124, 0, '2018-05-21', '2018-05-22', 4, 1, 2);
-(5, 'champ', 25, 'ok', '2018-06-08', '2018-07-07', 1, 3, 2);
+(4, 'JsaisPas', 124, 0, '2018-05-21', '2018-05-22', 4, 1, 2),
+(5, 'champ', 25, 0, '2018-06-08', '2018-07-07', 1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -628,12 +628,6 @@ ALTER TABLE `stock`
 --
 
 --
--- Contraintes pour la table `agence_voyage`
---
-ALTER TABLE `agence_voyage`
-  ADD CONSTRAINT `agence_voyage_ibfk_1` FOREIGN KEY (`id_employe`) REFERENCES `employe` (`id_employe`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Contraintes pour la table `chambre`
 --
 ALTER TABLE `chambre`
@@ -643,7 +637,7 @@ ALTER TABLE `chambre`
 -- Contraintes pour la table `client`
 --
 ALTER TABLE `client`
-  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`id_agence`) REFERENCES `agence_voyage` (`id_agence`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `client_ibfk_1` FOREIGN KEY (`id_agence`) REFERENCES `agenceVoyage` (`id_agence`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `droitAcces`
