@@ -32,30 +32,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!-- jQuery -->
-    <script> window.jQuery = window.$ = require('jquery'); </script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../js/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../js/startmin.js"></script>
 
     <script src="../model/fct.js"></script>
-
-    <script>
-        getStatsNbCouvert(function(err,data){
-            if (err) {
-                // error handling code goes here
-                console.log(err);
-            } else {
-                drawChart(data);
-            }
-        });
-    </script>
 
 </head>
 <body>
@@ -77,7 +55,7 @@
                                 var outputDiv = document.getElementById('monNom');
                                 outputDiv.innerHTML = 'Bienvenue, ' + data;
                             }
-                         });
+                        });
                     </script>
                 </a>
             </div>
@@ -138,11 +116,8 @@
     <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div id="chartdiv"></div>
-            </div>
-            <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Tables et Couverts</h1>
+                    <h1 class="page-header">Alertes</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
@@ -151,7 +126,7 @@
                                 <div class="table-responsive">
                                     <div id="ligneTab">
                                         <script>
-                                            getLesReservtionsRestauration(function(err,data){
+                                            getLesAlertes(function(err,data){
                                                 if (err) {
                                                     // error handling code goes here
                                                     console.log(err);
@@ -159,41 +134,37 @@
                                                     var ligne = document.getElementById('ligneTab');
                                                     var contenu;
 
-                                                    /*
-                                                    ligne.innerHTML='<table class="table">' +
-                                                                        '<thead>' +
-                                                                            '<tr>' +
-                                                                                '<th>Nom</th>' +
-                                                                                '<th>Prenom</th>' +
-                                                                                '<th>nbLit</th>' +
-                                                                                '<th>nbTable</th>' +
-                                                                                '<th>nbCouvert</th>' +
-                                                                            '</tr>' +
-                                                                        '</thead>';
-                                                                        */
                                                     contenu ='<table class="table">' +
-                                                                    '<thead>' +
-                                                                        '<tr>' +
-                                                                            '<th>Nom</th>' +
-                                                                            '<th>Numéro de chambre</th>' +
-                                                                            '<th>Numéro de table</th>' +
-                                                                            '<th>Nombre de couvert</th>' +
-                                                                        '</tr>' +
-                                                                    '</thead>' +
-                                                                    '<tbody>';
+                                                        '<thead>' +
+                                                        '<tr>' +
+                                                        '<th>Chambre</th>' +
+                                                        '<th>Demandeur</th>' +
+                                                        '<th>Objet</th>' +
+                                                        '<th>Demande</th>' +
+                                                        '<th>Statut</th>' +
+                                                        '<th>État</th>' +
+                                                        '</tr>' +
+                                                        '</thead>' +
+                                                        '<tbody>';
 
                                                     for(var i= 0; i < data.length; i++)
                                                     {
-                                                        contenu += '<tr>';
-                                                        contenu += '<td>' + data[i].nomClient;
-                                                        contenu += ' ' + data[i].prenomClient + '</td>';
+                                                        if(data[i].etatDemande == 0){
+                                                            contenu += '<tr class="danger">';
+                                                        }else if(data[i].etatDemande == 1){
+                                                            contenu += '<tr class="success">';
+                                                        }
                                                         contenu += '<td>' + data[i].nbLit + '</td>';
-                                                        contenu += '<td>' + data[i].nbTable + '</td>';
-                                                        contenu += '<td>' + data[i].nbCouvert + '</td>';
-                                                        contenu += '<td>';
-                                                        contenu += "<a id='edit1' onclick='modifierRéservationRestauration("+ data[i].id_reservation +")' title='Modifier cette réservation'><i class='fa fa-edit fa-fw'></i></a> ";
-                                                        contenu += "<a onclick='supprimerRéservationRestauration("+ data[i].id_reservation +")' id='supp1' title='Supprimer cette réservationee'> <i class='fa fa-close fa-fw'></i></a>";
-                                                        contenu += '</td>';
+                                                        contenu += '<td class="col-md-2">' + data[i].nomClient;
+                                                        contenu += ' ' + data[i].prenomClient + '</td>';
+                                                        contenu += '<td class="col-md-2">' + data[i].objetService + '</td>';
+                                                        contenu += '<td>' + data[i].demanderService + '</td>';
+                                                        if(data[i].etatDemande == 0){
+                                                            contenu += "<td class='col-md-1' style='color: red;'><i class='fa fa-times fa-fw'></i></td>";
+                                                        }else if(data[i].etatDemande == 1){
+                                                            contenu += "<td class='col-md-1' style='color: green;'><i class='fa fa-check fa-fw'></i></td>";
+                                                        }
+                                                        contenu += '<td>Changement de l\'état</td>';
                                                         contenu += '</tr>';
                                                     }
 
@@ -222,6 +193,18 @@
 
 </div>
 <!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="../js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../js/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../js/startmin.js"></script>
 
 <!-- Import controller restauration -->
 <script src="../controller/c_restauration.js"></script>

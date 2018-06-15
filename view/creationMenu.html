@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Royal Garden</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../css/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../css/startmin.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../model/fct.js"></script>
+    <script type="text/javascript">
+        document.getElementById("tabEntree")
+    </script>
+
+</head>
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <div id="monNom" style="color: white;size: 15px">
+                <a class="navbar-brand" href="index.html">
+                    <script>
+                        getName(function(err,data){
+                            if (err) {
+                                // error handling code goes here
+                                console.log(err);
+                            } else {
+                                // code to execute on data retrieval
+                                var outputDiv = document.getElementById('monNom');
+                                outputDiv.innerHTML = 'Bienvenue, ' + data;
+                            }
+                        });
+                    </script>
+                </a>
+            </div>
+        </div>
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="acceuil.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                    <!-- <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="flot.html">Flot Charts</a>
+                            </li>
+                            <li>
+                                <a href="morris.html">Morris.js Charts</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level
+                    </li> -->
+                    <li>
+                        <a href="creationMenu.html"><i class="fa fa-table fa-fw"></i> Menus</a>
+                    </li>
+                    <li>
+                        <a href="tarifTVA.html"><i class="fa fa-edit fa-fw"></i> Tarifs & TVA</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="alertes.html"><i class="fa fa-eye fa-fw"></i> Consulter les alertes</a>
+                            </li>
+                            <li>
+                                <a href="redigerAlerte.html"><i class="fa fa-edit fa-fw"></i> Rédiger une alertes</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <!--
+                    <li>
+                        <a href="alertes.html"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes</a>
+                    </li>
+                    -->
+                    <li>
+                        <a href="#" onclick="deconnexion()" id="deconnexion"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Conception de menu</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form action="#">
+                                    <div class="row">
+                                        <div class="table-responsive col-md-4">
+                                            <div id="tabEntree">
+                                                <script>
+                                                    getLesEntrees(function(err,data){
+                                                        if (err) {
+                                                            // error handling code goes here
+                                                            console.log(err);
+                                                        } else {
+                                                            let ligne = document.getElementById('tabEntree');
+                                                            let contenu;
+
+                                                            contenu ='<table class="table">' +
+                                                                '<thead>' +
+                                                                '<tr>' +
+                                                                '<th>Entrées</th>' +
+                                                                '</tr>' +
+                                                                '</thead>' +
+                                                                '<tbody>';
+
+                                                            for(var i= 0; i < data.length; i++)
+                                                            {
+                                                                contenu += '<tr>';
+                                                                contenu += '<td title="' + data[i].Ingredient_Entree + '">';
+                                                                contenu += '<input type="radio" name="entree" value="' + data[i].id_entree + '" id="'+ data[i].nomEntree +'"> ';
+                                                                contenu += '<small><label for="'+ data[i].nomEntree +'">' + data[i].nomEntree + '</label></small>';
+                                                                contenu += '</input></td>';
+                                                                contenu += '</tr>';
+                                                            }
+
+                                                            contenu += '</tbody>';
+                                                            contenu += '</table>';
+
+                                                            ligne.innerHTML = contenu;
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive col-md-4">
+                                            <div id="tabPlat">
+                                                <script>
+                                                    getLesPlats(function(err,data){
+                                                        if (err) {
+                                                            // error handling code goes here
+                                                            console.log(err);
+                                                        } else {
+                                                            let ligne = document.getElementById('tabPlat');
+                                                            let contenu;
+
+                                                            contenu ='<table class="table">' +
+                                                                '<thead>' +
+                                                                '<tr>' +
+                                                                '<th>Plats</th>' +
+                                                                '</tr>' +
+                                                                '</thead>' +
+                                                                '<tbody>';
+
+                                                            for(var i= 0; i < data.length; i++)
+                                                            {
+                                                                contenu += '<tr>';
+                                                                contenu += '<td title="' + data[i].Ingredient_plat + '">';
+                                                                contenu += '<input type="radio" name="plat" value="' + data[i].id_plat + '" id="'+ data[i].nomPlat +'"> ';
+                                                                contenu += '<small><label for="'+ data[i].nomPlat +'">' + data[i].nomPlat + '</label></small>';
+                                                                contenu += '</td>';
+                                                                contenu += '</tr>';
+                                                            }
+
+                                                            contenu += '</tbody>';
+                                                            contenu += '</table>';
+
+                                                            ligne.innerHTML = contenu;
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive col-md-4">
+                                            <div id="tabDessert">
+                                                <script>
+                                                    getLesDessert(function(err,data){
+                                                        if (err) {
+                                                            // error handling code goes here
+                                                            console.log(err);
+                                                        } else {
+                                                            let ligne = document.getElementById('tabDessert');
+                                                            let contenu;
+
+                                                            contenu ='<table class="table">' +
+                                                                '<thead>' +
+                                                                '<tr>' +
+                                                                '<th>Dessert</th>' +
+                                                                '</tr>' +
+                                                                '</thead>' +
+                                                                '<tbody>';
+
+                                                            for(var i= 0; i < data.length; i++)
+                                                            {
+                                                                contenu += '<tr>';
+                                                                contenu += '<td title="' + data[i].ingredient_dessert + '">';
+                                                                contenu += '<input type="radio" name="dessert" value="' + data[i].id_dessert + '" id="'+ data[i].nomDessert +'"> ';
+                                                                contenu += '<small><label for="'+ data[i].nomDessert +'">' + data[i].nomDessert + '</label></small>';
+                                                                contenu += '</td>';
+                                                                contenu += '</tr>';
+                                                            }
+
+                                                            contenu += '</tbody>';
+                                                            contenu += '</table>';
+
+                                                            ligne.innerHTML = contenu;
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="text" placeholder="Nom du menu" name="nomDuMenu"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="number" min="0" placeholder="Prix du menu" name="prixDuMenu"/>
+                                        </div>
+                                        <div class="pull-right col-md-4">
+                                            <button type="submit" id="validerConfectionMenu" onclick="creerMenu()" class="btn btn-success">Valider</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="../js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../js/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../js/startmin.js"></script>
+
+</body>
+</html>

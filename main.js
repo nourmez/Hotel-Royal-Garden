@@ -14,7 +14,12 @@ let mainWindow
 function createWindow () {
     // Create the browser window.
     //mainWindow = new BrowserWindow({width: 1280, height: 800, resizable: false})
-    mainWindow = new BrowserWindow({width: 1280, height: 800, resizable: false})
+    mainWindow = new BrowserWindow({
+        width: 1280,
+        height: 800,
+        resizable: false,
+        icon: __dirname + './assets/test.icns'
+    })
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({

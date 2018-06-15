@@ -3,26 +3,27 @@ let bdd = new BDD();
 
 module.exports = class Auth {
 
-    connexionUser(login, mdp) {
-        let query = "SELECT e.id_employe, e.nomEmploye, e.prenomEmploye, e.adresseEmploye, e.dateEmpoche, e.posteEmploye, e.loginEmploye, e.mdpEmploye, e.id_droit, e.id_pole, p.nomPole FROM employe e join pole p on p.id_pole = e.id_pole WHERE e.loginEmploye='" + login + "' AND e.mdpEmploye='" + mdp + "';";
+    connexionUser (login, mdp) {
+        let query="SELECT `id_employe`, `nomEmploye`, `prenomEmploye`, `adresseEmploye`, `dateEmbauche`, `posteEmploye`, `loginEmploye`, `mdpEmploye`, `id_droit`, `id_pole` FROM `employe` WHERE `loginEmploye`='"+ login +"' AND `mdpEmploye`='"+ mdp +"';";
 
-        bdd.connection.query(query, function (err, rows, fields) {
-            if (err) {
+        bdd.connection.query(query, function(err, rows) {
+            //var etat;
+
+            if(err){
                 console.log("Connexion échoué.");
                 console.log(err);
                 return;
-                //etat = false;
-            }
-            else if (rows[0].nomPole == "Restauration")
-            {
-                bdd.connection.end();
-                window.location.href = "./view/acceuil.html";
 
-            }
-            else if (rows[0].nomPole == "Hébergement")
-            {
+            }else if(rows[0].id_droit == 1){
+
                 bdd.connection.end();
-                window.location.href = "view/hebergement.html";
+                sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
+                window.location.href="./view/acceuil.html";
+
+            }else if(rows[0].id_droit == 2){
+                sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
+                window.location.href="./view/acceuil.html";
+                bdd.connection.end();
             }
         });
     }
