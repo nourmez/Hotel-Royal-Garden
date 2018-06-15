@@ -21,6 +21,8 @@
   "dependencies": {
     "amcharts3": "^3.21.13",
     "cookies": "^0.7.1",
+    "electron-log": "^2.2.14",
+    "jquery": "^3.3.1",
     "module": "^1.2.5",
     "mysql": "^2.15.0"
   }
