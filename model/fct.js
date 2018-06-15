@@ -374,6 +374,27 @@ function getLesAlertes(callback)
     });
 }
 
+//Permet d'ajouter une demande de service
+function ajouterDemandeService()
+{
+    var objet = document.getElementById('objetDemande');
+    var message = document.getElementById('descriptionDemande');
+
+    query = "INSERT INTO `serviceDivers`(`objetService`, `demanderService`) VALUES (" + objet + "," + message + ");";
+    bdd.connection.query(query, function(err, result)
+    {
+        if (err) {
+            return console.log(err, null);
+        }else {
+            var nombreDeCouvert = result[0].nbCouvert;
+            var nombreDeCouvertTwo = result[0].nbCouvertTwo;
+            var tab = [{'title': 'Nombre de couvert', 'value': nombreDeCouvert},{'title': 'Nombre de couvert two', 'value': nombreDeCouvertTwo}];
+
+            callback(null, tab);
+        }
+    });
+}
+
 //Permet de déconnecter l'utilisateur à l'application
 function deconnexion(){
     window.location.href="../index.html";
