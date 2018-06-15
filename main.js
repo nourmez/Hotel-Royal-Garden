@@ -18,7 +18,8 @@ function createWindow () {
         width: 1280,
         height: 800,
         resizable: false,
-        icon: __dirname + './assets/test.icns'
+        icon: __dirname + './assets/test.icns',
+        title: "Royal Garden"
     })
 
     // and load the index.html of the app.

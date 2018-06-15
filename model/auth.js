@@ -22,7 +22,7 @@ module.exports = class Auth {
 
             }else if(rows[0].id_droit == 2){
                 sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
-                window.location.href="./view/acceuil.html";
+                window.location.href="./view/hebergement.html";
                 bdd.connection.end();
             }
         });

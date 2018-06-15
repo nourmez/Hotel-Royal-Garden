@@ -7,8 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Royal Garden</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -47,7 +45,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" id="monNom"></a>
+            <div id="monNom" style="color: white;size: 15px"></div>
         </div>
 
         <div class="navbar-default sidebar" role="navigation">
@@ -80,7 +78,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading page-header">
-                                <a href="centralReservationChambre.html"><h3>Gestion des Centrals de réservaltions</h3></a>
+                                <h3>Gestion des Centrales de réservations</h3>
                             </div>
                             <div class="panel-body">
                                 <table class="table">
@@ -93,7 +91,7 @@
                                             <th scope="col">Date de sortie</th>
                                             <th scope="col">Nom et prénom de client</th>
                                             <th scope="col">Statut de reservation</th>
-                                            <th scope="col">action</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tableaureservation">
@@ -110,6 +108,7 @@
             <!-- /.container-fluid -->
     </div>
         <!-- /#page-wrapper -->
+</div>
     <script>
         getName();
         lesReservations();
