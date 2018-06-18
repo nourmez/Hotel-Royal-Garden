@@ -472,7 +472,7 @@ function lesReservations() {
         else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th id="">'+rows[i].id_chambre+'</th><th id="">'+rows[i].typeChambre+'</th><th id="">'+rows[i].nbLit+'</th><th id="">'+rows[i].dateDebut+'</th><th id="">'+rows[i].dateFin+'</th><th id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th id="">'+rows[i].annulationReservation+'</th><th id=""><button onclick="modifReservationChambre('+rows[i].id_reservation+')">Modifier</button><button onclick="supprimeReservation('+rows[i].id_reservation+')">Supprimer</button></th></tr>';
+                tab= tab+'<tr><th id="">'+rows[i].id_chambre+'</th><th id="">'+rows[i].typeChambre+'</th><th id="">'+rows[i].nbLit+'</th><th id="">'+rows[i].dateDebut+'</th><th id="">'+rows[i].dateFin+'</th><th id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th id="">'+rows[i].annulationReservation+'</th><th id=""><a onclick="modifReservationChambre('+rows[i].id_reservation+')"><i class="fa fa-edit fa-fw"></i></a><a onclick="supprimeReservation('+rows[i].id_reservation+')"><i class="fa fa-close fa-fw"></i></a</th></tr>';
             }
             return document.getElementById('tableaureservation').innerHTML = tab;
         }
@@ -496,7 +496,7 @@ function lesAgences(){
         }else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th>'+rows[i].id_agence+'</th><th>'+rows[i].nomAgence+'</th><th>'+rows[i].nbClientAgence+'</th><th><button onclick="modifGestionAgences('+rows[i].id_agence+')">Modifier</button><button onclick="supprimeAgences('+rows[i].id_agence+')">Supprimer</button></th></tr>';
+                tab= tab+'<tr><th>'+rows[i].id_agence+'</th><th>'+rows[i].nomAgence+'</th><th>'+rows[i].nbClientAgence+'</th><th><a onclick="modifGestionAgences('+rows[i].id_agence+')"><i class="fa fa-edit fa-fw"></i></a><a onclick="supprimeAgences('+rows[i].id_agence+')"><i class="fa fa-close fa-fw"></i></a></th></tr>';
 
             }
             return document.getElementById('tableauagence').innerHTML = tab;
