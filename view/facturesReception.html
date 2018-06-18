@@ -66,22 +66,22 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="restauration.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="reception.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="creationMenu.html"><i class="fa fa-table fa-fw"></i> Menus</a>
+                        <a href="facturesReception.html"><i class="fa fa-money fa-fw"></i> Facture</a>
                     </li>
                     <li>
-                        <a href="tarifTVA.html"><i class="fa fa-edit fa-fw"></i> Tarifs & TVA</a>
+                        <a href="#.html"><i class="fa fa-eye fa-fw"></i> Visualiser les demandes</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="alertesRestauration.html"><i class="fa fa-eye fa-fw"></i> Consulter les alertes</a>
+                                <a href="alertesReception.html"><i class="fa fa-eye fa-fw"></i> Consulter les alertes</a>
                             </li>
                             <li>
-                                <a href="redigerAlerte.html"><i class="fa fa-edit fa-fw"></i> Rédiger une alertes</a>
+                                <a href="redigerAlerteReception.html"><i class="fa fa-edit fa-fw"></i> Rédiger une alertes</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -108,57 +108,64 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
-                                    <label>
-                                        <div class="col-md-6">
-                                            Objet :
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input required maxlength="30" id="objetDemande" type="text" name="objetDemande">
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="row">
-                                    <label>
-                                        <div class="col-md-6">
-                                            Destinataire :
-                                        </div>
-                                        <div class="col-md-6">
-                                            <select id="poles" name="poles">
-                                                <script>
-                                                    getLesPoles(function(err,data){
-                                                        if (err) {
-                                                            // error handling code goes here
-                                                            console.log(err);
-                                                        } else {
-                                                            var ligne = document.getElementById('poles');
-                                                            var contenu = "";
+                                    <div id="ligneTab">
+                                        <script>
+                                            getLesFactures(function(err,data){
+                                                if (err) {
+                                                    // error handling code goes here
+                                                    console.log(err);
+                                                } else {
+                                                    var ligne = document.getElementById('ligneTab');
+                                                    var contenu;
 
-                                                            for(var i= 0; i < data.length; i++) {
-                                                                contenu +='<option value="'+ data[i].id_pole +'">'+ data[i].nomPole +'</option>';
-                                                            }
-                                                            ligne.innerHTML = contenu;
+                                                    contenu ='<table class="table">' +
+                                                        '<thead>' +
+                                                        '<tr>' +
+                                                        '<th>Date</th>' +
+                                                        '<th>Chambre</th>' +
+                                                        '<th>Client</th>' +
+                                                        '<th>Total</th>' +
+                                                        '<th></th>' +
+                                                        '</tr>' +
+                                                        '</thead>' +
+                                                        '<tbody>';
+
+                                                    for(var i= 0; i < data.length; i++)
+                                                    {
+                                                        if(data[i].etatReservation == 0){
+                                                            contenu += '<tr class="danger">';
+                                                        }else if(data[i].etatReservation == 1){
+                                                            contenu += '<tr class="success">';
+                                                        }else if(data[i].etatReservation == 2){
+                                                            contenu += '<tr class="warning">';
                                                         }
-                                                    });
-                                                </script>
-                                            </select>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="row">
-                                    <label>
-                                        <div class="col-md-6">
-                                            Message :
-                                        </div>
-                                        <div class="col-md-6">
-                                            <textarea required placeholder="Décrivez votre besoin ici" id="descriptionDemande" name="descriptionDemande"></textarea>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-push-3 col-md-2">
-                                        <label>
-                                            <button onclick="ajouterRapport()" class="btn pull-right btn-success" type="submit">Valider</button>
-                                        </label>
+
+                                                        var separator = data[i].dateDebut.split("-");
+                                                        var dateDebut = separator[2] + "-" + separator[1] + "-" + separator[0];
+
+                                                        var separator = data[i].dateFin.split("-");
+                                                        var dateFin = separator[2] + "-" + separator[1] + "-" + separator[0];
+
+                                                        contenu += '<td>Du ' + dateDebut + ' au ' + dateFin + '</td>';
+                                                        contenu += '<td>' + data[i].id_chambre + '</td>';
+                                                        contenu += '<td>' + data[i].nomClient + ' ' + data[i].prenomClient + '</td>';
+                                                        contenu += '<td>' + data[i].prixTotal + '€</td>';
+                                                        if(data[i].etatReservation == 1){
+                                                            contenu += '<td></td>';
+                                                        }else{
+                                                            contenu += "<td><i onclick='' style='color:orange;' class='fa fa-pencil fa-fw'></i> <i onclick='validerFacture("+data[i].id_client+")' style='color:green;' class='fa fa-check fa-fw'></i></td>";
+                                                        }
+
+                                                        contenu += '</tr>';
+                                                    }
+
+                                                    contenu += '</tbody>';
+                                                    contenu += '</table>';
+
+                                                    ligne.innerHTML = contenu;
+                                                }
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                             </div>

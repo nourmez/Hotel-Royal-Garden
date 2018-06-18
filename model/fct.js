@@ -149,19 +149,22 @@ function creerMenu()
     $query= "INSERT INTO `menu`(`nomMenu`, `id_PD`, `id_plat`, `id_entree`, `id_dessert`, `prixMenu`) " +
             "VALUES ('"+ nomMenu +"',"+ 1 +","+ plat +","+ entree +","+ dessert +","+ prixMenu +")";
 
-    alert($query);
+    if(nomMenu != '' && prixMenu != '') {
+        bdd.connection.query($query, function (err, rows, fields) {
 
-    bdd.connection.query($query, function (err, rows, fields) {
+            if (err) {
+                console.log("Problème de création du menu." + err);
+                alert('Veuillez remplir tout les champs.');
+                return;
+            } else {
+                console.log("Création du menu avec succés !");
+            }
 
-        if (err) {
-            console.log("Problème de création du menu." + err);
-            return;
-        }else{
-            console.log("Création du menu avec succés !");
-        }
-
-        //callback(rows);
-    });
+            //callback(rows);
+        });
+    }else{
+        alert('Veuillez remplir tout les champs.');
+    }
 
     //bdd.connection.end();
 }
@@ -302,6 +305,59 @@ function supprimerLeMenu(idMenu)
 }
 
 /*
+Récupère les données nécessaires à l'affichage des factures
+Author : PINTO Dani
+*/
+function getLesFactures(callback)
+{
+
+    $query= "SELECT `reservation`.`id_client`, `dateDebut`, `dateFin`, `id_chambre`, `nomClient`, `prenomClient`, SUM(`prixReservation`) as prixTotal, `etatReservation`\n" +
+            "FROM `reservation`, `client`, `chambre`\n" +
+            "WHERE `client`.`id_client` = `reservation`.`id_client`\n" +
+            "AND `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
+            "GROUP BY `reservation`.`id_client`";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de récupération des factures !");
+            console.log(err);
+            return;
+        }else{
+            callback(null,rows);
+            console.log("Récupération des menus avec succés !");
+        }
+    });
+}
+
+/*
+Sert à supprimer un menu en base de données
+Author : PINTO Dani
+*/
+function validerFacture(idClient)
+{
+
+    if(confirm("Voulez-vous vraiment valider cette facturation ?")){
+        $query= "UPDATE `reservation` SET `etatReservation`=1 WHERE `id_client`=" +idClient+ ";";
+
+        bdd.connection.query($query, function (err, rows, fields) {
+
+            if (err) {
+                alert("Problème de validation de la facture.");
+                console.log(err);
+                return;
+            }else{
+                alert("Validation de la facture avec succès !");
+                window.location.reload(true);
+            }
+        });
+    }
+    else{
+
+    }
+}
+
+/*
 Sert à modifier une réservation de restauration en base de données
 Author : PINTO Dani
 */
@@ -399,7 +455,7 @@ function getStatsNbCouvert(callback)
 }
 
 /*
-Récupère toutes les alertes et servicesDivers
+Récupère toutes les demandes de servicesDivers
 Author : PINTO Dani
 */
 function getLesAlertes(callback)
@@ -409,6 +465,29 @@ function getLesAlertes(callback)
             "WHERE `serviceDivers`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`";
+
+    bdd.connection.query(query, function(err, rows)
+    {
+        if (err) {
+            console.log(err, null);
+            console.log('Problème de récupèration des alertes !');
+            return;
+        }else {
+            console.log('Récupèration des alertes avec succès !')
+            callback(null, rows);
+        }
+    });
+}
+
+/*
+Récupère toutes les alertes du pole "Restauration"
+Author : PINTO Dani
+*/
+function getLesAlertesRestauration(callback)
+{
+    query = "SELECT `id_rapport`, `typeRapport`, `messageRapport`, `etatRapport`, `id_pole`, `id_employe` \n" +
+            "FROM `rapport` \n" +
+            "WHERE `id_pole` = 1";
 
     bdd.connection.query(query, function(err, rows)
     {

@@ -14,18 +14,26 @@ module.exports = class Auth {
                 console.log(err);
                 return;
 
-            }else if(rows[0].id_droit == 1){
-
-                sessionStorage.setItem('idUtilisateur', rows[0].id_employe);
-                sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
-                window.location.href="./view/restauration.html";
-                bdd.connection.end();
-
-            }else if(rows[0].id_droit == 2){
+            } else {
                 sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
                 sessionStorage.setItem('idUtilisateur', rows[0].id_employe);
-                window.location.href="./view/hebergement.html";
-                bdd.connection.end();
+                sessionStorage.setItem('idPole', rows[0].id_pole);
+
+                if (rows[0].id_pole == 1) {
+
+                        window.location.href = "./view/restauration.html";
+                        bdd.connection.end();
+
+                } else if (rows[0].id_pole == 2) {
+
+                        window.location.href = "./view/hebergement.html";
+                        bdd.connection.end();
+
+                } else if (rows[0].id_pole == 3) {
+
+                        window.location.href = "./view/reception.html";
+                        bdd.connection.end();
+                }
             }
         });
     }
