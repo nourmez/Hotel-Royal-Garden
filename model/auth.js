@@ -16,12 +16,14 @@ module.exports = class Auth {
 
             }else if(rows[0].id_droit == 1){
 
-                bdd.connection.end();
+                sessionStorage.setItem('idUtilisateur', rows[0].id_employe);
                 sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
                 window.location.href="./view/restauration.html";
+                bdd.connection.end();
 
             }else if(rows[0].id_droit == 2){
                 sessionStorage.setItem('nomUtilisateur', rows[0].loginEmploye);
+                sessionStorage.setItem('idUtilisateur', rows[0].id_employe);
                 window.location.href="./view/hebergement.html";
                 bdd.connection.end();
             }

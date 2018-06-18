@@ -138,6 +138,7 @@
                                                         '<th>Plat</th>' +
                                                         '<th>Dessert</th>' +
                                                         '<th>Prix</th>' +
+                                                        '<th></th>' +
                                                         '</tr>' +
                                                         '</thead>' +
                                                         '<tbody>';
@@ -150,6 +151,7 @@
                                                         contenu += '<td>' + data[i].nomPlat + '</td>';
                                                         contenu += '<td>' + data[i].nomDessert + '</td>';
                                                         contenu += '<td>' + data[i].prixMenu + '€</td>';
+                                                        contenu += '<td><i style="color: red" class="fa fa-times fa-fw" onclick="supprimerLeMenu('+data[i].id_menu+')"></i></td>';
                                                         contenu += '</tr>';
                                                     }
 

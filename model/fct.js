@@ -174,7 +174,7 @@ Author : PINTO Dani
 function getLesMenu(callback)
 {
 
-    $query= "SELECT `nomMenu`, `nomEntree`, `nomDessert`, `nomPlat`, `prixMenu`\n" +
+    $query= "SELECT `id_menu`, `nomMenu`, `nomEntree`, `nomDessert`, `nomPlat`, `prixMenu`\n" +
             "FROM `menu`, `entree`, `plat`, `dessert`\n" +
             "WHERE `menu`.`id_plat`=`plat`.`id_plat`\n" +
             "AND `menu`.`id_entree`=`entree`.`id_entree`\n" +
@@ -195,31 +195,6 @@ function getLesMenu(callback)
     });
 
     //bdd.connection.end();
-}
-
-/*
-Sert à supprimer un menu en base de données
-Author : PINTO Dani
-*/
-function supprimerMenu(idMenu)
-{
-
-    $query= "DELETE FROM `menu` WHERE `id_menu`= "+ idMenu +";";
-
-    bdd.connection.query($query, function (err, rows, fields) {
-
-        if (err) {
-            console.log("Problème de suppression du menu.");
-            console.log(err);
-            return;
-        }
-
-        callback(rows);
-
-        console.log("Suppression du menu avec succés !");
-    });
-
-    bdd.connection.end();
 }
 
 /*
@@ -296,6 +271,34 @@ function getReservation(callback)
         }
 
     });
+}
+
+/*
+Sert à supprimer un menu en base de données
+Author : PINTO Dani
+*/
+function supprimerLeMenu(idMenu)
+{
+
+    if(confirm("Voulez-vous vraiment supprimer ce menu ?")){
+        $query= "DELETE FROM `menu` WHERE `id_menu`="+ idMenu +";";
+
+        bdd.connection.query($query, function (err, rows, fields) {
+
+            if (err) {
+                console.log("Problème de suppression de la réservation de restaurant.");
+                console.log(err);
+                return;
+            }else{
+                console.log("Suppression de la table du restaurant avec succés !");
+                window.location.reload(true);
+            }
+
+        });
+    }
+    else{
+        alert("La réservation n'a pas été supprimée.")
+    }
 }
 
 /*
@@ -424,22 +427,46 @@ function getLesAlertes(callback)
 Permet d'ajouter une demande de service
 Author : PINTO Dani
 */
-function ajouterDemandeService()
+function ajouterRapport()
 {
-    var objet = document.getElementById('objetDemande');
-    var message = document.getElementById('descriptionDemande');
+    var objet = document.getElementById('objetDemande').value;
+    var message = document.getElementById('descriptionDemande').value;
+    var idPole = document.getElementById('poles').value;
+    var idEmploye = sessionStorage.getItem('idUtilisateur');
 
-    query = "INSERT INTO `serviceDivers`(`objetService`, `demanderService`) VALUES (" + objet + "," + message + ");";
-    bdd.connection.query(query, function(err, result)
+    query = "INSERT INTO `rapport`(`typeRapport`, `messageRapport`, `id_pole`, `id_employe`) " +
+            "VALUES ('"+ objet +"','"+ message +"',"+ idPole +","+ idEmploye +");";
+    if(objet != '' && message != '') {
+        bdd.connection.query(query, function (err, result) {
+            if (err) {
+                return console.log(err, null);
+            } else {
+                alert('Demande envoyée avec succès !');
+                window.location.reload(true);
+            }
+        });
+    }else{
+        alert('Veuillez remplir tout les champs du formulaire.')
+    }
+}
+
+/*
+Récupère tout les poles
+Author : PINTO Dani
+*/
+function getLesPoles(callback)
+{
+    query = "SELECT `id_pole`, `nomPole` FROM `pole` ORDER by nomPole;";
+
+    bdd.connection.query(query, function(err, rows)
     {
         if (err) {
-            return console.log(err, null);
+            console.log(err, null);
+            console.log('Problème de récupèration des poles !');
+            return;
         }else {
-            var nombreDeCouvert = result[0].nbCouvert;
-            var nombreDeCouvertTwo = result[0].nbCouvertTwo;
-            var tab = [{'title': 'Nombre de couvert', 'value': nombreDeCouvert},{'title': 'Nombre de couvert two', 'value': nombreDeCouvertTwo}];
-
-            callback(null, tab);
+            console.log('Récupèration des poles avec succès !')
+            callback(null, rows);
         }
     });
 }

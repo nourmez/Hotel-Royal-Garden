@@ -118,7 +118,34 @@
                                             Objet :
                                         </div>
                                         <div class="col-md-6">
-                                            <input maxlength="30" id="objetDemande" type="text" name="objetDemande">
+                                            <input required maxlength="30" id="objetDemande" type="text" name="objetDemande">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <label>
+                                        <div class="col-md-6">
+                                            Destinataire :
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select id="poles" name="poles">
+                                                <script>
+                                                    getLesPoles(function(err,data){
+                                                        if (err) {
+                                                            // error handling code goes here
+                                                            console.log(err);
+                                                        } else {
+                                                            var ligne = document.getElementById('poles');
+                                                            var contenu = "";
+
+                                                            for(var i= 0; i < data.length; i++) {
+                                                                contenu +='<option value="'+ data[i].id_pole +'">'+ data[i].nomPole +'</option>';
+                                                            }
+                                                            ligne.innerHTML = contenu;
+                                                        }
+                                                    });
+                                                </script>
+                                            </select>
                                         </div>
                                     </label>
                                 </div>
@@ -128,14 +155,14 @@
                                             Message :
                                         </div>
                                         <div class="col-md-6">
-                                            <textarea placeholder="Décrivez votre besoin ici" id="descriptionDemande" name="descriptionDemande"></textarea>
+                                            <textarea required placeholder="Décrivez votre besoin ici" id="descriptionDemande" name="descriptionDemande"></textarea>
                                         </div>
                                     </label>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-push-3 col-md-2">
                                         <label>
-                                            <button onclick="ajouterDemandeService()" class="btn pull-right btn-success" type="submit">Valider</button>
+                                            <button onclick="ajouterRapport()" class="btn pull-right btn-success" type="submit">Valider</button>
                                         </label>
                                     </div>
                                 </div>
