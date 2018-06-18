@@ -453,6 +453,10 @@ function deconnexion(){
     window.location.href="../index.html";
 };
 
+/*
+Select tout les resrvations chambres
+Author : Mezrani Nourhene
+*/
 
 function lesReservations() {
 
@@ -475,6 +479,11 @@ function lesReservations() {
     });
 }
 
+/*
+Select tout les agences
+Author : Mezrani Nourhene
+*/
+
 function lesAgences(){
     querygetLesAgences = "SELECT * FROM agenceVoyage WHERE id_employe='2';";
 
@@ -495,6 +504,11 @@ function lesAgences(){
     });
 }
 
+/*
+suppression tout les agences
+Author : Mezrani Nourhene
+*/
+
 function supprimeAgences(argument) {
     if(confirm("Voulez vous vraiment supprimer cette agence ?")){
 
@@ -504,6 +518,12 @@ function supprimeAgences(argument) {
     }
     return window.location.reload();
 }
+
+/*
+suppression tout les resrvations chambres
+Author : Mezrani Nourhene
+*/
+
 function supprimeReservation(argument) {
     if(confirm("Voulez vous vraiment supprimer cette reservation ?")){
 
@@ -514,12 +534,21 @@ function supprimeReservation(argument) {
     return window.location.reload();
 }
 
+/*
+confirmation avant modification tout les agences
+Author : Mezrani Nourhene
+*/
+
 function modifGestionAgences(argument){
     if(confirm("Voulez vous vraiment modifier cette agence ?")){
         sessionStorage.setItem('idAgences', argument);
         window.location.href ='modifGestionAgences.html';
     }
 }
+/*
+afficher valeurs a modifier tout les agences
+Author : Mezrani Nourhene
+*/
 function modifGestionAgencesM(){
     querygetAgence = "SELECT * FROM agenceVoyage WHERE id_agence="+sessionStorage.getItem('idAgences');
 
@@ -539,6 +568,11 @@ function modifGestionAgencesM(){
     //bdd.connection.end();
 }
 
+/*
+confirmation avant modification tout les resrvations chambres
+Author : Mezrani Nourhene
+*/
+
 function modifReservationChambre(argument){
     if(confirm("Voulez vous vraiment modifier cette réservation ?")){
         sessionStorage.setItem('idChambre', argument);
@@ -546,6 +580,11 @@ function modifReservationChambre(argument){
     window.location.href ='modifReservationChambre.html';
 }
 
+/*
+afficher valeurs a modifier tout les resrvations chambres
+Author : Mezrani Nourhene
+
+*/
 function modifReservationChambreM(){
 
     querygetReservtion= "SELECT cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre,   r.annulationReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation ="+sessionStorage.getItem('idChambre')+" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
@@ -569,6 +608,11 @@ function modifReservationChambreM(){
         }
     })
 }
+
+/*
+modification  l'agences
+Author : Mezrani Nourhene
+*/
 
 function modifAgences(){
     var nomAgence = document.getElementById('aNom').value;
@@ -594,6 +638,11 @@ function modifAgences(){
 
     //bdd.connection.end();
 }
+
+/*
+modification  chambre
+Author : Mezrani Nourhene
+*/
 
 function modifChambre(){
     queryModificationC="UPDATE reservation r, pole p,  employe e, chambre ch, client cl SET cl.nomClient='"+document.getElementById('nClient').value +"', cl.prenomClient='"+document.getElementById('pClient').value +"', ch.nbLit='"+document.getElementById('lNombre').value +"', ch.typeChambre='"+document.getElementById('cType').value +"', r.annulationReservation='"+document.getElementById('sReservation').value +"', r.dateDebut='"+document.getElementById('eDate').value +"', r.dateFin='"+document.getElementById('sDate').value +"' WHERE r.id_reservation="+sessionStorage.getItem('idChambre')+" AND ch.id_chambre="+document.getElementById('cNombre').value +" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
