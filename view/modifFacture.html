@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-        require('amcharts3/amcharts/amcharts');
-        require('amcharts3/amcharts/pie');
-        require('amcharts3/amcharts/themes/light');
-    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -101,68 +96,65 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Alertes</h1>
+                    <h1 class="page-header">Modification de la réservation</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="table-responsive">
-                                    <div id="ligneTab">
-                                        <script>
-                                            getLesServicesDivers(function(err,data){
-                                                if (err) {
-                                                    // error handling code goes here
-                                                    console.log(err);
-                                                } else {
-                                                    var ligne = document.getElementById('ligneTab');
-                                                    var contenu;
+                                    <form>
+                                        <div id="ligneTab">
+                                            <script>
+                                                getLaFacture(function(err,data){
+                                                    if (err) {
+                                                        // error handling code goes here
+                                                        console.log(err);
+                                                    } else {
+                                                        let ligne = document.getElementById('ligneTab');
+                                                        let contenu;
+                                                        let prixTotal = 0;
 
-                                                    contenu ='<table class="table">' +
-                                                        '<thead>' +
-                                                        '<tr>' +
-                                                        '<th>Chambre</th>' +
-                                                        '<th>Demandeur</th>' +
-                                                        '<th>Objet</th>' +
-                                                        '<th>Demande</th>' +
-                                                        '<th>Statut</th>' +
-                                                        '</tr>' +
-                                                        '</thead>' +
-                                                        '<tbody>';
+                                                        contenu ='<table class="table">' +
+                                                            '<thead>' +
+                                                            '<tr>' +
+                                                            '<th>Type réservation</th>' +
+                                                            '<th>Prix réservation</th>' +
+                                                            '</tr>' +
+                                                            '</thead>' +
+                                                            '<tbody>';
 
-                                                    for(var i= 0; i < data.length; i++)
-                                                    {
-                                                        if(data[i].etatDemande == 0){
-                                                            contenu += '<tr class="danger">';
-                                                        }else if(data[i].etatDemande == 1){
-                                                            contenu += '<tr class="success">';
-                                                        }else if(data[i].etatDemande == 2){
-                                                            contenu += '<tr class="warning">';
+                                                        for(var i= 0; i < data.length; i++)
+                                                        {
+                                                            prixTotal += data[i].prixReservation;
+
+                                                            contenu += '<tr>';
+                                                            contenu += '<td>' + data[i].typeResarvation + '</td>';
+                                                            contenu += '<td>' + data[i].prixReservation + '€</td>';
+                                                            contenu += '<td></td>';
+                                                            contenu += '</tr>';
                                                         }
-                                                        contenu += '<td>' + data[i].nbLit + '</td>';
-                                                        contenu += '<td class="col-md-2">' + data[i].nomClient;
-                                                        contenu += ' ' + data[i].prenomClient + '</td>';
-                                                        contenu += '<td class="col-md-2">' + data[i].objetService + '</td>';
-                                                        //contenu += '<td>' + data[i].demanderService + '</td>';
-                                                        contenu += `<td> ${data[i].demanderService} </td>`;
-                                                        if(data[i].etatDemande == 0){
-                                                            contenu += "<td class='col-md-1' style='color: red;'><i class='fa fa-times fa-fw'></i></td>";
-                                                        }else if(data[i].etatDemande == 1){
-                                                            contenu += "<td class='col-md-1' style='color: green;'><i class='fa fa-check fa-fw'></i></td>";
-                                                        }else{
-                                                            contenu += "<td class='col-md-1' style='color: orange;'><i class='fa fa-clock-o fa-fw'></i></td>";
-                                                        }
+
+                                                        contenu += '<tr>';
+                                                        contenu += '<td></td>';
+                                                        contenu += '<td class="text-right"><b>Prix total : </b></td>';
+                                                        contenu += '<td>' + prixTotal + '€</td>';
                                                         contenu += '</tr>';
+
+                                                        contenu += '</tbody>';
+                                                        contenu += '</table>';
+
+                                                        ligne.innerHTML = contenu;
                                                     }
-
-                                                    contenu += '</tbody>';
-                                                    contenu += '</table>';
-
-                                                    ligne.innerHTML = contenu;
-                                                }
-                                            });
-                                        </script>
-                                    </div>
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="row">
+                                            <div class="pull-right col-md-4">
+                                                <button type="submit" id="" onclick='validerFacture(sessionStorage.getItem("idClientFacture"))' class="btn btn-success">Valider</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
 
                             </div>

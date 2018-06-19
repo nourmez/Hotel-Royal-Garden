@@ -141,19 +141,19 @@
                                                         }
 
                                                         var separator = data[i].dateDebut.split("-");
-                                                        var dateDebut = separator[2] + "-" + separator[1] + "-" + separator[0];
+                                                        var dateDebut = separator[2] + "/" + separator[1] + "/" + separator[0];
 
                                                         var separator = data[i].dateFin.split("-");
-                                                        var dateFin = separator[2] + "-" + separator[1] + "-" + separator[0];
+                                                        var dateFin = separator[2] + "/" + separator[1] + "/" + separator[0];
 
                                                         contenu += '<td>Du ' + dateDebut + ' au ' + dateFin + '</td>';
-                                                        contenu += '<td>' + data[i].id_chambre + '</td>';
+                                                        contenu += '<td>Nº ' + data[i].id_chambre + '</td>';
                                                         contenu += '<td>' + data[i].nomClient + ' ' + data[i].prenomClient + '</td>';
                                                         contenu += '<td>' + data[i].prixTotal + '€</td>';
                                                         if(data[i].etatReservation == 1){
                                                             contenu += '<td></td>';
                                                         }else{
-                                                            contenu += "<td><i onclick='' style='color:orange;' class='fa fa-pencil fa-fw'></i> <i onclick='validerFacture("+data[i].id_client+")' style='color:green;' class='fa fa-check fa-fw'></i></td>";
+                                                            contenu += "<td><i onclick='getFactures("+data[i].id_client+")' style='color:orange;' class='fa fa-pencil fa-fw'></i> <i onclick='validerFacture("+data[i].id_client+")' style='color:green;' class='fa fa-check fa-fw'></i></td>";
                                                         }
 
                                                         contenu += '</tr>';

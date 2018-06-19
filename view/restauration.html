@@ -152,18 +152,6 @@
                                                     var ligne = document.getElementById('ligneTab');
                                                     var contenu;
 
-                                                    /*
-                                                    ligne.innerHTML='<table class="table">' +
-                                                                        '<thead>' +
-                                                                            '<tr>' +
-                                                                                '<th>Nom</th>' +
-                                                                                '<th>Prenom</th>' +
-                                                                                '<th>nbLit</th>' +
-                                                                                '<th>nbTable</th>' +
-                                                                                '<th>nbCouvert</th>' +
-                                                                            '</tr>' +
-                                                                        '</thead>';
-                                                                        */
                                                     contenu ='<table class="table">' +
                                                                     '<thead>' +
                                                                         '<tr>' +
@@ -180,8 +168,8 @@
                                                         contenu += '<tr>';
                                                         contenu += '<td>' + data[i].nomClient;
                                                         contenu += ' ' + data[i].prenomClient + '</td>';
-                                                        contenu += '<td>' + data[i].nbLit + '</td>';
-                                                        contenu += '<td>' + data[i].nbTable + '</td>';
+                                                        contenu += '<td>Nº ' + data[i].nbLit + '</td>';
+                                                        contenu += '<td>Nº ' + data[i].nbTable + '</td>';
                                                         contenu += '<td>' + data[i].nbCouvert + '</td>';
                                                         contenu += '<td>';
                                                         contenu += "<a id='edit1' onclick='modifierRéservationRestauration("+ data[i].id_reservation +")' title='Modifier cette réservation'><i class='fa fa-edit fa-fw'></i></a> ";

@@ -81,13 +81,19 @@ Author : PINTO Dani
 function getLesReservtionsRestauration(callback)
 {
 
-    $query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`, reservation.`id_reservation`\n" +
+    $query ="SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`, `reservation`.`id_reservation`\n" +
+            "FROM `reservation`, `chambre`, `client`, `restaurant`\n" +
+            "WHERE `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
+            "AND `client`.`id_client` = `reservation`.`id_client`\n" +
+            "AND DATE('2018-05-21') = `reservation`.`dateDebut`\n" +
+            "GROUP BY `reservation`.`id_client`";
+    /*$query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`, `reservation`.`id_reservation`\n" +
             "FROM `reservation`, `chambre`, `client`, `restaurant`\n" +
             "WHERE `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `client`.`id_client` = `reservation`.`id_client`\n" +
             "AND DATE('2018-05-21') = `reservation`.`dateDebut`;";
-    /*$query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`\n" +
+    $query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`\n" +
             "FROM `reservation`, `chambre`, `client`, `restaurant`\n" +
             "WHERE `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
@@ -258,7 +264,7 @@ function getReservation(callback)
 
     $query= "SELECT `nomClient`, `prenomClient`, `nbTable`, `nbCouvert`\n" +
             "FROM `restaurant`, `reservation`, `client`\n" +
-            "WHERE `restaurant`.`id_restaurant` = `reservation`.`id_reservation`\n" +
+            "WHERE `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `reservation`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_reservation` =" + idReservation + ";";
 
@@ -311,11 +317,11 @@ Author : PINTO Dani
 function getLesFactures(callback)
 {
 
-    $query= "SELECT `reservation`.`id_client`, `dateDebut`, `dateFin`, `id_chambre`, `nomClient`, `prenomClient`, SUM(`prixReservation`) as prixTotal, `etatReservation`\n" +
+    $query= "SELECT `reservation`.`id_client`, `dateDebut`, `dateFin`, `id_chambre`, `nomClient`, `prenomClient`, SUM(`prixReservation`) as `prixTotal`, `etatReservation`\n" +
             "FROM `reservation`, `client`, `chambre`\n" +
             "WHERE `client`.`id_client` = `reservation`.`id_client`\n" +
             "AND `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
-            "GROUP BY `reservation`.`id_client`";
+            "GROUP BY `reservation`.`id_client`;";
 
     bdd.connection.query($query, function (err, rows, fields) {
 
@@ -355,6 +361,74 @@ function validerFacture(idClient)
     else{
 
     }
+}
+
+/*
+Permet de rediriger l'utilisateur sur la page de modification de la facture
+Instancie une variable de sessionStorage avec l'id du client
+Author : PINTO Dani
+*/
+function getFactures(idClient)
+{
+    if(confirm("Voulez vous vraiment modifier cette réservation ?")){
+        sessionStorage.setItem('idClientFacture', idClient);
+        window.location.href="../view/modifFacture.html";
+    } else{
+        alert("La modification n'a pas été réalisée.")
+    }
+}
+
+/*
+Permet de récupérer la facture à modifier
+Author : PINTO Dani
+*/
+function getLaFacture(callback)
+{
+    var idFacture = sessionStorage.getItem('idClientFacture');
+
+    $query= "SELECT `id_reservation`, `typeResarvation`, `prixReservation`, `etatReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe` \n" +
+            "FROM `reservation` \n" +
+            "WHERE `id_client` = "+ idFacture +";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            alert("Problème d'affichage de la facture.");
+            console.log(err);
+            return;
+        }else{
+            callback(null, rows);
+            //window.location.href="../view/modifReservation.html";
+        }
+
+    });
+}
+
+
+/*
+Permet de récupérer la facture à modifier
+Author : PINTO Dani
+*/
+function modifierLaFacture(callback)
+{
+    var idFacture = sessionStorage.getItem('idClientFacture');
+
+    $query= "SELECT `id_reservation`, `typeResarvation`, `prixReservation`, `etatReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe` \n" +
+            "FROM `reservation` \n" +
+            "WHERE `id_client` = "+ idFacture +";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            alert("Problème d'affichage de la facture.");
+            console.log(err);
+            return;
+        }else{
+            callback(null, rows);
+            //window.location.href="../view/modifReservation.html";
+        }
+
+    });
 }
 
 /*
@@ -458,13 +532,14 @@ function getStatsNbCouvert(callback)
 Récupère toutes les demandes de servicesDivers
 Author : PINTO Dani
 */
-function getLesAlertes(callback)
+function getLesServicesDivers(callback)
 {
     query = "SELECT `id_service`, `dateService`, `objetService`, `demanderService`, `etatDemande`, `client`.`id_client`, `reservation`.`id_employe`, `nomClient`, `prenomClient`, `nbLit`\n" +
             "FROM `serviceDivers`, `client`, `chambre`, `reservation`\n" +
             "WHERE `serviceDivers`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_client` = `client`.`id_client`\n" +
-            "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`";
+            "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`" +
+            "GROUP BY `client`.`id_client`;";
 
     bdd.connection.query(query, function(err, rows)
     {
@@ -473,7 +548,8 @@ function getLesAlertes(callback)
             console.log('Problème de récupèration des alertes !');
             return;
         }else {
-            console.log('Récupèration des alertes avec succès !')
+            console.log('Récupèration des alertes avec succès !');
+            console.log(rows);
             callback(null, rows);
         }
     });
@@ -483,11 +559,12 @@ function getLesAlertes(callback)
 Récupère toutes les alertes du pole "Restauration"
 Author : PINTO Dani
 */
-function getLesAlertesRestauration(callback)
+function getLesAlertes(callback)
 {
+    var idPole = sessionStorage.getItem('idPole');
     query = "SELECT `id_rapport`, `typeRapport`, `messageRapport`, `etatRapport`, `id_pole`, `id_employe` \n" +
             "FROM `rapport` \n" +
-            "WHERE `id_pole` = 1";
+            "WHERE `id_pole` = "+ idPole +";";
 
     bdd.connection.query(query, function(err, rows)
     {
