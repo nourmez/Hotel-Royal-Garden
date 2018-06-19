@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        require('amcharts3/amcharts/amcharts');
+        require('amcharts3/amcharts/pie');
+        require('amcharts3/amcharts/serial');
+        require('amcharts3/amcharts/themes/light');
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +45,42 @@
     <!-- Custom Theme JavaScript -->
     <script src="../js/startmin.js"></script>
     <script src="../model/fct.js"></script>
+    <script>
+        getStatsRemplissage(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data);
+            }
+        });
+
+        getStatsAvis(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChartAvis(data);
+            }
+        });
+    </script>
+    <style>
+#chartdivAvis {
+  width: 40%;
+  height: 400px;
+}
+
+.amcharts-export-menu-top-right {
+  top: 10px;
+  right: 0;
+}
+#chartdiv {
+	width		: 50%;
+	height		: 400px;
+	font-size	: 11px;
+}
+</style>
+
 </head>
 <body>
 
@@ -91,8 +133,9 @@
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
+            <div class="col-lg-3" id="chartdiv"></div>
+            <div class="col-lg-3" id="chartdivAvis" style="overflow: hidden;text-align: left;top: 20px;"></div>
 
-            <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading page-header">
@@ -130,10 +173,13 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Nombre de Agence</th>
-                                            <th scope="col">Nom de Agence</th>
+                                            <th scope="col">Nombre de l'Agence</th>
+                                            <th scope="col">Nom de l'Agence</th>
+                                            <th scope="col">Responsable de l'Agence</th>
+                                            <th scope="col">E-mail de l'Agence</th>
+                                            <th scope="col">Telephone de l'Agence</th>
                                             <th scope="col">Nombre des clients</th>
-                                            <th scope="col">action</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tableauagence">
@@ -144,7 +190,7 @@
                         </div>
                     </div>
                     <!-- /.col-lg-12 -->
-                </div>
+
                 <!-- /.row -->
         </div>
             <!-- /.container-fluid -->
