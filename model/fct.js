@@ -462,6 +462,63 @@ function modifierReservationRestaurant()
 }
 
 /*
+Sert à modifier une réservation de restauration en base de données
+Author : PINTO Dani
+*/
+function voirDemandeService(idDemande)
+{
+    sessionStorage.setItem('idDemandeService', idDemande);
+    window.location.href="../view/voirDemandeService.html";
+}
+
+/*
+Sert à modifier une réservation de restauration en base de données
+Author : PINTO Dani
+*/
+function getLaDemandeService(callback)
+{
+    var idDemande = sessionStorage.getItem('idDemandeService');
+
+    $query= "SELECT `id_service`, `dateService`, `objetService`, `demanderService`, `etatDemande`, `id_client`, `id_employe` \n" +
+            "FROM `servicedivers` \n" +
+            "WHERE `id_service` = "+ idDemande +";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de récupèration de la demande service.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Récupèration de la demande de service avec succès.");
+            callback(null,rows);
+        }
+
+    });
+}
+
+/*
+Permet de récupèrer le nom de l'utilisateur connecté
+Author : PINTO Dani
+*/
+function supprimerLigneFactures(idReservation)
+{
+    query = "DELETE FROM `reservation` WHERE `id_reservation` ="+ idReservation +";";
+
+    if(confirm('Voulez-vous supprimer cette ligne de réservation ?')) {
+        bdd.connection.query(query, function (err, result) {
+            if (err) {
+                callback(err, null);
+                alert('Erreur de suppression de cette ligne de facture.');
+                return;
+            } else {
+                window.location.reload(true);
+            }
+        });
+    }
+}
+
+/*
 Permet de récupèrer le nom de l'utilisateur connecté
 Author : PINTO Dani
 */

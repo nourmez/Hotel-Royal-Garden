@@ -33,6 +33,10 @@ module.exports = class Auth {
 
                         window.location.href = "./view/reception.html";
                         bdd.connection.end();
+                } else if (rows[0].id_pole == 4) {
+
+                    window.location.href = "./view/directeurGenerale.html";
+                    bdd.connection.end();
                 }
             }
         });
