@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 19 Juin 2018 à 14:45
+-- Généré le :  Mar 19 Juin 2018 à 17:41
 -- Version du serveur :  10.1.19-MariaDB
 -- Version de PHP :  5.6.28
 
@@ -163,7 +163,8 @@ CREATE TABLE `employe` (
 INSERT INTO `employe` (`id_employe`, `nomEmploye`, `prenomEmploye`, `adresseEmploye`, `dateEmbauche`, `posteEmploye`, `loginEmploye`, `mdpEmploye`, `id_droit`, `id_pole`) VALUES
 (1, 'PINTO', 'Dani', '30 rue de Turbigo, 75003 Paris', '2018-06-18', 'Chef de restauration', 'dpinto', 'dani', 1, 1),
 (2, 'MEZRANI', 'Nourhene', '75000', '0000-00-00', 'Dev', 'nmezrani', 'nourhene', 2, 2),
-(3, 'HANIQUE', 'Killian', '30 rue de Turbigo, 75003 Paris', '2018-06-18', 'Chef de Réception', 'khanique', 'killian', 1, 3);
+(3, 'HANIQUE', 'Killian', '30 rue de Turbigo, 75003 Paris', '2018-06-18', 'Chef de Réception', 'khanique', 'killian', 1, 3),
+(4, 'CUSSAC', 'Benoît', '30 rue de Turbigo, 75003 Paris', '2018-06-19', 'Directeur Générale', 'bcussac', 'benoit', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -188,6 +189,23 @@ INSERT INTO `entree` (`id_entree`, `nomEntree`, `Ingredient_Entree`) VALUES
 (4, 'Pressé de foie gras et anguille fumée', 'Navet fane, betterave, Gelée de cidre'),
 (5, 'Boeuf de Salers en fin tartare', 'Caviar d''Aquitaine Prunier, Concombre mariné, aneth'),
 (6, 'Ris de veau rôti', 'Fenouil, carotte confite, sauce au vin jaune');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `evaluation`
+--
+
+CREATE TABLE `evaluation` (
+  `id_evaluation` int(90) NOT NULL,
+  `noteRestauration` int(1) DEFAULT NULL,
+  `noteHebergement` int(1) DEFAULT NULL,
+  `noteReception` int(1) DEFAULT NULL,
+  `noteGourvernanteGenerale` int(1) DEFAULT NULL,
+  `noteSpaManager` int(1) DEFAULT NULL,
+  `noteChefMaintenance` int(1) DEFAULT NULL,
+  `id_client` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -356,14 +374,14 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id_reservation`, `typeResarvation`, `prixReservation`, `etatReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe`) VALUES
-(1, 'Restaurant', 120, '0', '2018-05-21', '2018-05-21', 1, 1, 1),
-(2, 'Hebergement', 150, '0', '2018-05-21', '2018-05-22', 1, 2, 1),
-(3, 'Spa', 124, '0', '2018-05-21', '2018-05-22', 1, 6, 1),
+(1, 'Restaurant', 120, '1', '2018-05-21', '2018-05-21', 1, 1, 1),
+(2, 'Hebergement', 150, '1', '2018-05-21', '2018-05-22', 1, 2, 1),
+(3, 'Spa', 124, '1', '2018-05-21', '2018-05-22', 1, 6, 1),
 (4, 'Restaurant', 120, '0', '2018-05-21', '2018-05-22', 4, 1, 1),
 (5, 'Hebergement', 200, '0', '2018-05-21', '2018-05-22', 4, 2, 1),
 (6, 'Spa', 120, '0', '2018-05-21', '2018-05-22', 4, 6, 1),
 (7, 'Restaurant', 120, '0', '2018-05-21', '2018-05-22', 5, 1, 1),
-(8, 'Hebergement', 170, '1', '2018-05-21', '2018-05-22', 5, 2, 1),
+(8, 'Hebergement', 170, '0', '2018-05-21', '2018-05-22', 5, 2, 1),
 (9, 'Spa', 120, '0', '2018-05-21', '2018-05-22', 5, 6, 1);
 
 -- --------------------------------------------------------
@@ -386,7 +404,6 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`id_restaurant`, `id_menu`, `dateConceptionMenu`, `nbTable`, `nbCouvert`, `id_reservation`) VALUES
-(1, 1, '2018-06-06', 33, 3, 1),
 (2, 2, '2018-06-18', 44, 4, 4),
 (3, 3, '2018-06-18', 64, 2, 7);
 
@@ -480,6 +497,13 @@ ALTER TABLE `employe`
 --
 ALTER TABLE `entree`
   ADD PRIMARY KEY (`id_entree`);
+
+--
+-- Index pour la table `evaluation`
+--
+ALTER TABLE `evaluation`
+  ADD PRIMARY KEY (`id_evaluation`),
+  ADD KEY `id_client` (`id_client`);
 
 --
 -- Index pour la table `menu`
@@ -598,12 +622,17 @@ ALTER TABLE `droitAcces`
 -- AUTO_INCREMENT pour la table `employe`
 --
 ALTER TABLE `employe`
-  MODIFY `id_employe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_employe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `entree`
 --
 ALTER TABLE `entree`
   MODIFY `id_entree` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT pour la table `evaluation`
+--
+ALTER TABLE `evaluation`
+  MODIFY `id_evaluation` int(90) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `menu`
 --
@@ -682,6 +711,12 @@ ALTER TABLE `droitAcces`
 ALTER TABLE `employe`
   ADD CONSTRAINT `employe_ibfk_1` FOREIGN KEY (`id_droit`) REFERENCES `droitacces` (`id_droit`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `employe_ibfk_2` FOREIGN KEY (`id_pole`) REFERENCES `pole` (`id_pole`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `evaluation`
+--
+ALTER TABLE `evaluation`
+  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`);
 
 --
 -- Contraintes pour la table `menu`
