@@ -247,7 +247,7 @@ function modifierRéservationRestauration(idReservation)
 
     if(confirm("Voulez vous vraiment modifier cette réservation ?")){
         sessionStorage.setItem('idDeLaReservation', idReservation);
-        window.location.href="../view/modifReservation.html";
+        window.location.href="./view/modifReservation.html";
     }
     else{
         alert("La modification n'a pas été réalisée.")

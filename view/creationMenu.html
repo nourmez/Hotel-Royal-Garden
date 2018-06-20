@@ -42,7 +42,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
