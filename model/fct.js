@@ -690,7 +690,7 @@ Author : PINTO Dani
 */
 function deconnexion(){
     sessionStorage.clear();
-    window.location.href="../index.html";
+    window.location.href="../index2.html";
 };
 
 

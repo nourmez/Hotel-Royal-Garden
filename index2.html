@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page de connexion</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -41,29 +43,31 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default">
-                <div class="panel-heading">
-                    <img style="width:150px;height: 150px;"class="center-block" src="assets/Logo.svg"/>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-b-160 p-t-50">
+            <form class="login100-form validate-form">
+					<span class="login100-form-title p-b-43">
+						Page de connexion
+					</span>
+
+                <div class="wrap-input100 rs1 validate-input" data-validate = "Username is required">
+                    <input class="input100" id="identifiant" name="identifiant" type="text" autofocus>
+                    <span class="label-input100">Identifiant</span>
                 </div>
-                <div class="panel-body">
-                    <form role="form">
-                        <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Identifiant" id="identifiant" name="identifiant" type="text" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Mot de passe" id="motdepasse" name="motdepasse" type="password" value="">
-                            </div>
-                            <!-- Change this to a button or input when using this as a form -->
-                            <button id="seConnecter" class="btn btn-lg btn-success btn-block">Se connecter</button>
-                        </fieldset>
-                    </form>
+
+
+                <div class="wrap-input100 rs2 validate-input" data-validate="Password is required">
+                    <input class="input100" id="motdepasse" name="motdepasse" type="password">
+                    <span class="label-input100">Mot de passe</span>
                 </div>
-            </div>
-            <div id="msgErreur"></div>
+
+                <div class="container-login100-form-btn">
+                    <button id="seConnecter" class="login100-form-btn">
+                        Connexion
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

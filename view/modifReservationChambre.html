@@ -7,8 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Royal Garden</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -52,20 +50,14 @@
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="hebergement.html"><i class="fa fa-dashboard fa-fw"></i> Tableaux de bord</a>
-                    </li>
-                    <li>
-                        <a href="centralReservationChambre.html"><i class="fa fa-book fa-fw"></i> Centrales de réservations</a>
-                    </li>
-                    <li>
-                        <a href="gestionAgences.html"><i class="fa fa-building fa-fw"></i> Agences de voyages</a>
-                    </li>
-                    <li>
-                        <a href="../index.html"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
-                    </li>
-                </ul>
+                <monMenu></monMenu>
+                <script>
+                    if(sessionStorage.getItem('idPole')==4){
+                        $('monMenu').load('menuDirecteur.html');
+                    }else if(sessionStorage.getItem('idPole')==1){
+                        $('monMenu').load('menuHebergement.html');
+                    }
+                </script>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
@@ -118,6 +110,7 @@
         </div>
             <!-- /.container-fluid -->
     </div>
+</div>
         <!-- /#page-wrapper -->
     <script>
         getName();

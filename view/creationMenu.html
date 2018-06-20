@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Permet de créer un nouveau menu.">
+    <meta name="author" content="PINTO Dani">
 
     <!-- jQuery -->
     <script> window.jQuery = window.$ = require('jquery'); </script>
@@ -59,47 +59,16 @@
                 </a>
             </div>
         </div>
-
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="restauration.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <!-- <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="flot.html">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level
-                    </li> -->
-                    <li>
-                        <a href="creationMenu.html"><i class="fa fa-table fa-fw"></i> Menus</a>
-                    </li>
-                    <li>
-                        <a href="tarifTVA.html"><i class="fa fa-edit fa-fw"></i> Tarifs & TVA</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="alertesRestauration.html"><i class="fa fa-eye fa-fw"></i> Consulter les alertes</a>
-                            </li>
-                            <li>
-                                <a href="redigerAlerte.html"><i class="fa fa-edit fa-fw"></i> Rédiger une alertes</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#" onclick="deconnexion()" id="deconnexion"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
-                    </li>
-                </ul>
+                <monMenu></monMenu>
+                <script>
+                    if(sessionStorage.getItem('idPole')==4){
+                        $('monMenu').load('menuDirecteur.html');
+                    }else if(sessionStorage.getItem('idPole')==1){
+                        $('monMenu').load('menuRestauration.html');
+                    }
+                </script>
             </div>
             <!-- /.sidebar-collapse -->
         </div>

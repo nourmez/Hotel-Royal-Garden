@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Permet d'effectuer une réduction au client et visualiser ses lignes de factures.">
+    <meta name="author" content="PINTO Dani">
 
     <!-- jQuery -->
     <script> window.jQuery = window.$ = require('jquery'); </script>
@@ -59,32 +59,14 @@
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="reception.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="facturesReception.html"><i class="fa fa-money fa-fw"></i> Facture</a>
-                    </li>
-                    <li>
-                        <a href="reception.html"><i class="fa fa-eye fa-fw"></i> Visualiser les demandes</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="alertesReception.html"><i class="fa fa-eye fa-fw"></i> Consulter les alertes</a>
-                            </li>
-                            <li>
-                                <a href="redigerAlerteReception.html"><i class="fa fa-edit fa-fw"></i> Rédiger une alertes</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#" onclick="deconnexion()" id="deconnexion"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
-                    </li>
-                </ul>
+                <monMenu></monMenu>
+                <script>
+                    if(sessionStorage.getItem('idPole')==4){
+                        $('monMenu').load('menuDirecteur.html');
+                    }else{
+                        $('monMenu').load('menuReception.html');
+                    }
+                </script>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
