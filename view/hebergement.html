@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        require('amcharts3/amcharts/amcharts');
+        require('amcharts3/amcharts/pie');
+        require('amcharts3/amcharts/serial');
+        require('amcharts3/amcharts/themes/light');
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,6 +45,42 @@
     <!-- Custom Theme JavaScript -->
     <script src="../js/startmin.js"></script>
     <script src="../model/fct.js"></script>
+    <script>
+        getStatsRemplissage(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data,"chartdiv");
+            }
+        });
+
+        getStatsAvis(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChartAvis(data,"chartdivAvis");
+            }
+        });
+    </script>
+    <style>
+#chartdivAvis {
+  width: 40%;
+  height: 400px;
+}
+
+.amcharts-export-menu-top-right {
+  top: 10px;
+  right: 0;
+}
+#chartdiv {
+	width		: 50%;
+	height		: 400px;
+	font-size	: 11px;
+}
+</style>
+
 </head>
 <body>
 
@@ -88,67 +130,14 @@
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
-
-            <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading page-header">
-                                <h3>Gestion des centrales de réservations</h3>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Nombre de Chambre</th>
-                                            <th scope="col">Type de Chambre</th>
-                                            <th scope="col">Nombre de lit</th>
-                                            <th scope="col">Date d'entrer</th>
-                                            <th scope="col">Date de sortie</th>
-                                            <th scope="col">Nom et prénom de client</th>
-                                            <th scope="col">Statut de reservation</th>
-                                            <th scope="col">action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableaureservation">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading page-header">
-                                <a href="gestionAgences.html"><h3>Gestion des agences de voyages</h3></a>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Nombre de Agence</th>
-                                            <th scope="col">Nom de Agence</th>
-                                            <th scope="col">Nombre des clients</th>
-                                            <th scope="col">action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableauagence">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
+            <div class="col-lg-3" id="chartdiv"></div>
+            <div class="col-lg-3" id="chartdivAvis" style="overflow: hidden;text-align: left;top: 20px;"></div>
                 <!-- /.row -->
         </div>
             <!-- /.container-fluid -->
     </div>
         <!-- /#page-wrapper -->
     <script>
-        getName();
         lesReservations();
         lesAgences();
 
