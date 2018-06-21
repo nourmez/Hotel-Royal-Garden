@@ -44,7 +44,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -101,19 +105,24 @@
                                         <div class="col-md-12">
                                             <label>
                                                 Description :
-                                                <textarea id="descriptionDemandeService" cols="25" rows="8"></textarea>
+                                                <textarea id="descriptionDemandeService" disabled cols="25" rows="8"></textarea>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="pull-right col-md-2">
-                                            <button type="submit" class="btn btn-success" id="valid">Valider</button>
+                                            <div id="boutonValider">
+                                            </div>
+                                            <div id="dejaValider">
+                                            </div>
                                         </div>
                                         <div class="pull-right col-md-2">
-                                            <button type="submit" class="btn btn-warning" id="inProgress">En cours</button>
+                                            <div id="boutonEnCours">
+                                            </div>
                                         </div>
                                         <div class="pull-right col-md-2">
-                                            <button type="submit" class="btn btn-danger" id="refuse">Refusée</button>
+                                            <div id="boutonRefuser">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -127,6 +136,19 @@
                                             {
                                                 document.getElementById('objetDemandeService').innerHTML = data[i].objetService;
                                                 document.getElementById('descriptionDemandeService').innerHTML = data[i].demanderService;
+
+                                                if (data[i].etatDemande==3){
+                                                    document.getElementById('boutonValider').innerHTML = '<button type="submit" onclick="validerLaDemandeService('+data[i].id_service+')" class="btn btn-success" id="valid">Valider</button>';
+                                                    document.getElementById('boutonEnCours').innerHTML = '<button type="submit" onclick="enCoursLaDemandeService('+data[i].id_service+')" class="btn btn-warning" id="inProgress">En cours</button>';
+                                                    document.getElementById('boutonRefuser').innerHTML = '<button type="submit" onclick="refuserLaDemandeService('+data[i].id_service+')" class="btn btn-danger" id="refuse">Refusée</button>';
+                                                }else if(data[i].etatDemande==2){
+                                                    document.getElementById('boutonValider').innerHTML = '<button type="submit" onclick="validerLaDemandeService('+data[i].id_service+')" class="btn btn-success" id="valid">Valider</button>';
+                                                    document.getElementById('boutonRefuser').innerHTML = '<button type="submit" onclick="refuserLaDemandeService('+data[i].id_service+')" class="btn btn-danger" id="refuse">Refusée</button>';
+                                                }else if(data[i].etatDemande==1){
+                                                    document.getElementById('dejaValider').innerHTML = '<font style="color: green">Demande validée.</font>';
+                                                }else{
+                                                    document.getElementById('dejaValider').innerHTML = '<font style="color: red">Demande refusée.</font>';
+                                                }
                                             }
                                         }
                                     });

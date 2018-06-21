@@ -36,6 +36,26 @@
 
     <script src="../model/fct.js"></script>
 
+    <script>
+        getCAJournalier(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data, "chartDiv");
+            }
+        });
+
+        getStatsTables(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data, "chartDivTable");
+            }
+        });
+    </script>
+
 </head>
 <body>
 
@@ -44,7 +64,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -83,12 +107,79 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard DG</h1>
+                    <h1 class="page-header">Dashboard</h1>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
+                                <div class="row">
+                                    <div id="chartDivTable" style="height: 20em"></div>
+                                </div>
+                                <!-- INSERT ANCIEN DASHBOARD -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="chartDiv" style="height: 20em"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- /.col-lg-12 -->
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="chartDivTwo"></div>
+                                    TEST
+                                </div>
+                                <!-- INSERT ANCIEN DASHBOARD -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        TEST
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+            <!-- /.row -->
+            </div>
+        <!-- /.container-fluid -->
+        </div>
+    <!-- /#page-wrapper -->
+    </div>
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="../js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../js/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../js/startmin.js"></script>
+
+<!--
                                 <div class="table-responsive">
                                     <div id="ligneTab">
                                         <script>
@@ -146,34 +237,7 @@
                                         </script>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.table-responsive -->
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- /#page-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="../js/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="../js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="../js/metisMenu.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="../js/startmin.js"></script>
-
+                            </div>-->
 </body>
 </html>
+

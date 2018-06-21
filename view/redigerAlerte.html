@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="PINTO Dani">
+    <meta name="author" content="">
 
     <!-- jQuery -->
     <script> window.jQuery = window.$ = require('jquery'); </script>
@@ -44,7 +44,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -68,7 +72,11 @@
                 <script>
                     if(sessionStorage.getItem('idPole')==4){
                         $('monMenu').load('menuDirecteur.html');
-                    }else{
+                    }else if(sessionStorage.getItem('idPole')==1){
+                        $('monMenu').load('menuRestauration.html');
+                    }else if(sessionStorage.getItem('idPole')==2){
+                        $('monMenu').load('menuHebergement.html');
+                    }else if(sessionStorage.getItem('idPole')==3){
                         $('monMenu').load('menuReception.html');
                     }
                 </script>
@@ -89,6 +97,7 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
+                                <form>
                                 <div class="row">
                                     <label>
                                         <div class="col-md-6">
@@ -139,10 +148,11 @@
                                 <div class="row">
                                     <div class="col-md-push-3 col-md-2">
                                         <label>
-                                            <button onclick="ajouterRapport()" class="btn pull-right btn-success" type="submit">Valider</button>
+                                            <button onclick="ajouterRapport(document.getElementById('objetDemande').value,document.getElementById('descriptionDemande').value,document.getElementById('poles').value)" class="btn pull-right btn-success" type="submit">Valider</button>
                                         </label>
                                     </div>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>

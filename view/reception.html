@@ -44,7 +44,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -120,6 +124,8 @@
                                                             contenu += '<tr class="success">';
                                                         }else if(data[i].etatDemande == 2){
                                                             contenu += '<tr class="warning">';
+                                                        }else if(data[i].etatDemande == 3){
+                                                            contenu += '<tr class="info">';
                                                         }
                                                         contenu += '<td>' + data[i].nbLit + '</td>';
                                                         contenu += '<td class="col-md-2">' + data[i].nomClient;
@@ -131,8 +137,10 @@
                                                             contenu += "<td class='col-md-1' style='color: red;'><i class='fa fa-times fa-fw'></i></td>";
                                                         }else if(data[i].etatDemande == 1){
                                                             contenu += "<td class='col-md-1' style='color: green;'><i class='fa fa-check fa-fw'></i></td>";
-                                                        }else{
+                                                        }else if(data[i].etatDemande == 2){
                                                             contenu += "<td class='col-md-1' style='color: orange;'><i class='fa fa-clock-o fa-fw'></i></td>";
+                                                        } else if(data[i].etatDemande == 3){
+                                                            contenu += "<td class='col-md-1' style='color: blue;'><i class='fa fa-plus-square-o fa-fw'></i></td>";
                                                         }
                                                         contenu += '</tr>';
                                                     }

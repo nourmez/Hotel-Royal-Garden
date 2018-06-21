@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Permet de visualiser les alertes du pole 'Réception'">
+    <meta name="description" content="Permet de visualiser les alertes du pole 'Restauration'">
     <meta name="author" content="PINTO Dani">
 
     <!-- jQuery -->
@@ -44,7 +44,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -68,7 +72,11 @@
                 <script>
                     if(sessionStorage.getItem('idPole')==4){
                         $('monMenu').load('menuDirecteur.html');
-                    }else{
+                    }else if(sessionStorage.getItem('idPole')==1){
+                        $('monMenu').load('menuRestauration.html');
+                    }else if(sessionStorage.getItem('idPole')==2){
+                        $('monMenu').load('menuHebergement.html');
+                    }else if(sessionStorage.getItem('idPole')==3){
                         $('monMenu').load('menuReception.html');
                     }
                 </script>
@@ -83,7 +91,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Alertes</h1>
+                    <h1 class="page-header">Consulter les alertes</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">

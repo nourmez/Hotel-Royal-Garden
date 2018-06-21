@@ -44,7 +44,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -103,10 +107,9 @@
                                                     contenu ='<table class="table">' +
                                                         '<thead>' +
                                                         '<tr>' +
-                                                        '<th>Date</th>' +
                                                         '<th>Chambre</th>' +
+                                                        '<th>Date</th>' +
                                                         '<th>Client</th>' +
-                                                        '<th>Total</th>' +
                                                         '<th></th>' +
                                                         '</tr>' +
                                                         '</thead>' +
@@ -128,14 +131,16 @@
                                                         var separator = data[i].dateFin.split("-");
                                                         var dateFin = separator[2] + "/" + separator[1] + "/" + separator[0];
 
+                                                        contenu += '<td>Nº ' + data[i].nbLit + '</td>';
                                                         contenu += '<td>Du ' + dateDebut + ' au ' + dateFin + '</td>';
-                                                        contenu += '<td>Nº ' + data[i].id_chambre + '</td>';
                                                         contenu += '<td>' + data[i].nomClient + ' ' + data[i].prenomClient + '</td>';
-                                                        contenu += '<td>' + data[i].prixTotal + '€</td>';
+                                                        //contenu += '<td>' + data[i].prixTotal + '€</td>';
+                                                        //contenu += '<td><div id="prixTotal" value="' + data[i].prixTotal + '">'+ data[i].prixTotal€ + '</div></td>';
                                                         if(data[i].etatReservation == 1){
                                                             contenu += '<td></td>';
                                                         }else{
-                                                            contenu += "<td><i onclick='getFactures("+data[i].id_client+")' style='color:orange;' class='fa fa-pencil fa-fw'></i> <i onclick='validerFacture("+data[i].id_client+")' style='color:green;' class='fa fa-check fa-fw'></i></td>";
+                                                            //contenu += "<td><i onclick='getFactures("+data[i].id_client+","+data[i].prixTotal+")' style='color:orange;' class='fa fa-pencil fa-fw'></i> <i onclick='validerFacture("+data[i].id_client+")' style='color:green;' class='fa fa-check fa-fw'></i></td>";
+                                                            contenu += "<td><i onclick='getFactures("+data[i].id_client+","+data[i].prixTotal+")' style='color:orange;' class='fa fa-pencil fa-fw'></i></td>";
                                                         }
 
                                                         contenu += '</tr>';
