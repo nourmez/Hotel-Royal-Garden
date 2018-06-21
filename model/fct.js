@@ -377,40 +377,43 @@ Permet de créer un chart column avec le tableau de données passé en paramètr
 Author : MEZRANI Nourhene
 */
 
-function drawChartAvis(data)
+function drawChartAvis(data,idDiv)
 {
-      var chart = AmCharts.makeChart("chartdivAvis", {
+      var chart = AmCharts.makeChart(idDiv, {
         "type": "serial",
-        "theme": "light",
-        "marginRight": 70,
-        "dataProvider": data,
-        "valueAxes": [{
-            "axisAlpha": 0,
-            "position": "left",
-            "title": "Nombres de clients"
-          }],
-        "startDuration": 1,
-        "graphs": [{
-          "balloonText": "<b>[[category]]: [[value]]</b>",
-          "fillColorsField": "color",
-          "fillAlphas": 0.9,
-          "lineAlpha": 0.2,
-          "type": "column",
-          "valueField": "visits"
-        }],
-        "chartCursor": {
-          "categoryBalloonEnabled": false,
-          "cursorAlpha": 0,
-          "zoomable": false
-        },
-        "categoryField": "Notes",
-        "categoryAxis": {
-          "gridPosition": "start",
-          "labelRotation": 45
-        },
-        "export": {
-          "enabled": true
-        }
+          "theme": "light",
+          "dataProvider": data,
+          "valueAxes": [ {
+            "gridColor": "#FFFFFF",
+            "gridAlpha": 0.2,
+            "dashLength": 0,
+            "title":"Nombres des clients"
+          } ],
+          "gridAboveGraphs": true,
+          "startDuration": 1,
+          "graphs": [ {
+            "balloonText": "[[category]]: <b>[[value]]</b>",
+            "fillColors": '#72de62',
+            "fillAlphas": 0.8,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "visits"
+          } ],
+          "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+          },
+          "categoryField": "Notes",
+          "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 20
+          },
+          "export": {
+            "enabled": true
+          }
 
       });
 }
@@ -739,35 +742,43 @@ Author : Mezrani Nourhene
 function getStatsAvis(callback)
 {
 
-    query = "SELECT COUNT(id_reservation)AS reservation FROM `reservation` WHERE `etatReservation`='1' AND `typeResarvation`='Hebergement';";
+    query = "SELECT noteHebergement,COUNT( `noteHebergement`) AS hebergement FROM `evaluation` GROUP BY `noteHebergement`;";
     bdd.connection.query(query, function(err, result)
     {
         if (err) {
             return console.log(err, null);
         }else {
-            var nombreDeReservation = result[0].reservation;
-            var tab = [{   "Notes": "1",
-                           "visits": 6,
-                           "color": "#FF0F00"
-                         }, {
-                           "Notes": "2",
-                           "visits": 20,
-                           "color": "#FF6600"
-                         }, {
-                           "Notes": "3",
-                           "visits": 30,
-                           "color": "#FF9E01"
-                         }, {
-                           "Notes": "4",
-                           "visits": 160,
-                           "color": "#FCD202"
-                         }, {
-                           "Notes": "5",
-                           "visits": 300,
-                           "color": "#F8FF01"
-                         }];
-
-            callback(null, tab);
+        var note =[0,0,0,0,0];
+        for(var i = 0; i <result.length; i++){
+        note[i] = result[i].hebergement;
         }
+            var tab =[
+                {
+                    "Notes":"1",
+                    "visits":note[0],
+                },
+                {
+                    "Notes":"2",
+                    "visits":note[1],
+                },
+                {
+                    "Notes":"3",
+                    "visits":note[2],
+                },
+                {
+                    "Notes":"4",
+                    "visits":note[3],
+                },
+                {
+                    "Notes":"5",
+                    "visits":note[4],
+                }];
+
+
+/*                     result[i].noteHebergement,
+                                        "visits": result[i].hebergement ,*/
+                };
+
+        callback(null, tab);
     });
 }
