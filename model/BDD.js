@@ -9,6 +9,14 @@ module.exports = class BDD {
             password : '',
             database : 'royal_garden'
         });
+        /*
+        this.connection = mysql.createConnection({
+            host     : 'localhost',
+            user     : 'id6264570_root',
+            password : 'daniBDD',
+            database : 'id6264570_royal_garden'
+        });
+         */
 
         this.connection.connect(function(err) {
             // in case of error

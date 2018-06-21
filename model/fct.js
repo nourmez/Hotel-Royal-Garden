@@ -163,7 +163,7 @@ function creerMenu()
                 alert('Veuillez remplir tout les champs.');
                 return;
             } else {
-                console.log("Création du menu avec succés !");
+                alert("Création du menu avec succés !");
             }
 
             //callback(rows);
