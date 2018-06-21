@@ -81,13 +81,19 @@ Author : PINTO Dani
 function getLesReservtionsRestauration(callback)
 {
 
-    $query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`, reservation.`id_reservation`\n" +
+    $query ="SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`, `reservation`.`id_reservation`\n" +
+            "FROM `reservation`, `chambre`, `client`, `restaurant`\n" +
+            "WHERE `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
+            "AND `client`.`id_client` = `reservation`.`id_client`\n" +
+            "AND DATE('2018-05-21') = `reservation`.`dateDebut`\n" +
+            "GROUP BY `reservation`.`id_client`";
+    /*$query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`, `reservation`.`id_reservation`\n" +
             "FROM `reservation`, `chambre`, `client`, `restaurant`\n" +
             "WHERE `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `client`.`id_client` = `reservation`.`id_client`\n" +
             "AND DATE('2018-05-21') = `reservation`.`dateDebut`;";
-    /*$query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`\n" +
+    $query= "SELECT `nomClient`, `prenomClient`, `nbLit`, `nbTable`, `nbCouvert`\n" +
             "FROM `reservation`, `chambre`, `client`, `restaurant`\n" +
             "WHERE `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
@@ -149,19 +155,22 @@ function creerMenu()
     $query= "INSERT INTO `menu`(`nomMenu`, `id_PD`, `id_plat`, `id_entree`, `id_dessert`, `prixMenu`) " +
             "VALUES ('"+ nomMenu +"',"+ 1 +","+ plat +","+ entree +","+ dessert +","+ prixMenu +")";
 
-    alert($query);
+    if(nomMenu != '' && prixMenu != '') {
+        bdd.connection.query($query, function (err, rows, fields) {
 
-    bdd.connection.query($query, function (err, rows, fields) {
+            if (err) {
+                console.log("Problème de création du menu." + err);
+                alert('Veuillez remplir tout les champs.');
+                return;
+            } else {
+                console.log("Création du menu avec succés !");
+            }
 
-        if (err) {
-            console.log("Problème de création du menu." + err);
-            return;
-        }else{
-            console.log("Création du menu avec succés !");
-        }
-
-        //callback(rows);
-    });
+            //callback(rows);
+        });
+    }else{
+        alert('Veuillez remplir tout les champs.');
+    }
 
     //bdd.connection.end();
 }
@@ -174,7 +183,7 @@ Author : PINTO Dani
 function getLesMenu(callback)
 {
 
-    $query= "SELECT `nomMenu`, `nomEntree`, `nomDessert`, `nomPlat`, `prixMenu`\n" +
+    $query= "SELECT `id_menu`, `nomMenu`, `nomEntree`, `nomDessert`, `nomPlat`, `prixMenu`\n" +
             "FROM `menu`, `entree`, `plat`, `dessert`\n" +
             "WHERE `menu`.`id_plat`=`plat`.`id_plat`\n" +
             "AND `menu`.`id_entree`=`entree`.`id_entree`\n" +
@@ -195,31 +204,6 @@ function getLesMenu(callback)
     });
 
     //bdd.connection.end();
-}
-
-/*
-Sert à supprimer un menu en base de données
-Author : PINTO Dani
-*/
-function supprimerMenu(idMenu)
-{
-
-    $query= "DELETE FROM `menu` WHERE `id_menu`= "+ idMenu +";";
-
-    bdd.connection.query($query, function (err, rows, fields) {
-
-        if (err) {
-            console.log("Problème de suppression du menu.");
-            console.log(err);
-            return;
-        }
-
-        callback(rows);
-
-        console.log("Suppression du menu avec succés !");
-    });
-
-    bdd.connection.end();
 }
 
 /*
@@ -263,7 +247,7 @@ function modifierRéservationRestauration(idReservation)
 
     if(confirm("Voulez vous vraiment modifier cette réservation ?")){
         sessionStorage.setItem('idDeLaReservation', idReservation);
-        window.location.href="../view/modifReservation.html";
+        window.location.href="./view/modifReservation.html";
     }
     else{
         alert("La modification n'a pas été réalisée.")
@@ -280,7 +264,7 @@ function getReservation(callback)
 
     $query= "SELECT `nomClient`, `prenomClient`, `nbTable`, `nbCouvert`\n" +
             "FROM `restaurant`, `reservation`, `client`\n" +
-            "WHERE `restaurant`.`id_restaurant` = `reservation`.`id_reservation`\n" +
+            "WHERE `restaurant`.`id_reservation` = `reservation`.`id_reservation`\n" +
             "AND `reservation`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_reservation` =" + idReservation + ";";
 
@@ -292,6 +276,181 @@ function getReservation(callback)
             return;
         }else{
             callback(null,rows);
+            //window.location.href="../view/modifReservation.html";
+        }
+
+    });
+}
+
+/*
+Sert à supprimer un menu en base de données
+Author : PINTO Dani
+*/
+function supprimerLeMenu(idMenu)
+{
+
+    if(confirm("Voulez-vous vraiment supprimer ce menu ?")){
+        $query= "DELETE FROM `menu` WHERE `id_menu`="+ idMenu +";";
+
+        bdd.connection.query($query, function (err, rows, fields) {
+
+            if (err) {
+                console.log("Problème de suppression de la réservation de restaurant.");
+                console.log(err);
+                return;
+            }else{
+                console.log("Suppression de la table du restaurant avec succés !");
+                window.location.reload(true);
+            }
+
+        });
+    }
+    else{
+        alert("La réservation n'a pas été supprimée.")
+    }
+}
+
+/*
+Récupère les données nécessaires à l'affichage des factures
+Author : PINTO Dani
+*/
+function getLesFactures(callback)
+{
+
+    /*
+    $query= "SELECT `reservation`.`id_client`, `dateDebut`, `dateFin`, `id_chambre`, `nomClient`, `prenomClient`, SUM(`prixReservation`) as `prixTotal`, `etatReservation`\n" +
+            "FROM `reservation`, `client`, `chambre`\n" +
+            "WHERE `client`.`id_client` = `reservation`.`id_client`\n" +
+            "AND `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
+            "GROUP BY `reservation`.`id_client`;";
+    */
+    $query= "SELECT `reservation`.`id_client`, `dateDebut`, `dateFin`, `id_chambre`, `nomClient`, `prenomClient`, `etatReservation`, `nbLit`\n" +
+            "FROM `reservation`, `client`, `chambre`\n" +
+            "WHERE `client`.`id_client` = `reservation`.`id_client`\n" +
+            "AND `chambre`.`id_reservation` = `reservation`.`id_reservation`\n" +
+            "GROUP BY `reservation`.`id_client`;";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de récupération des factures !");
+            console.log(err);
+            return;
+        }else{
+            callback(null,rows);
+            console.log("Récupération des menus avec succés !");
+        }
+    });
+}
+
+/*
+Sert à supprimer un menu en base de données
+Author : PINTO Dani
+*/
+function validerFacture(idClient, prixTotal)
+{
+    var idEmploye = sessionStorage.getItem('idUtilisateur');
+
+    if(confirm("Voulez-vous vraiment valider cette facturation ?")){
+        $query= "UPDATE `reservation` SET `etatReservation`=1 WHERE `id_client`=" +idClient+ ";";
+
+        bdd.connection.query($query, function (err, rows, fields) {
+
+            if (err) {
+                alert("Problème de validation de la facture.");
+                console.log(err);
+                return;
+            }else{
+                console.log("Validation de la facture avec succès !");
+                bdd.connection.end();
+                //window.location.reload(true);
+            }
+        });
+
+        if (document.getElementById('reduction')!=0){
+            prixTotal = prixTotal - (prixTotal*document.getElementById('reduction').value/100);
+        }
+
+        $querytwo= "INSERT INTO `reservation`(`typeResarvation`, `prixReservation`, `etatReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe`) \n" +
+                    "VALUES ('Validation facture',"+prixTotal+", '1', DATE(now()), DATE(now()), "+idClient+", 3, "+idEmploye+");";
+
+
+        bdd.connection.query($querytwo, function (err, rows, fields) {
+
+            if (err) {
+                alert("Problème de validation de la facture.");
+                console.log(err);
+                return;
+            }else{
+                alert("Validation de la facture avec succès !");
+                window.location.href="../view/facturesReception.html";
+            }
+        });
+    }
+}
+
+/*
+Permet de rediriger l'utilisateur sur la page de modification de la facture
+Instancie une variable de sessionStorage avec l'id du client
+Author : PINTO Dani
+*/
+function getFactures(idClient)
+{
+    if(confirm("Voulez vous vraiment modifier cette réservation ?")){
+        sessionStorage.setItem('idClientFacture', idClient);
+        window.location.href="../view/modifFacture.html";
+    } else{
+        alert("La modification n'a pas été réalisée.")
+    }
+}
+
+/*
+Permet de récupérer la facture à modifier
+Author : PINTO Dani
+*/
+function getLaFacture(callback)
+{
+    var idFacture = sessionStorage.getItem('idClientFacture');
+
+    $query= "SELECT `id_reservation`, `typeResarvation`, `prixReservation`, `etatReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe` \n" +
+            "FROM `reservation` \n" +
+            "WHERE `id_client` = "+ idFacture +";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            alert("Problème d'affichage de la facture.");
+            console.log(err);
+            return;
+        }else{
+            callback(null, rows);
+            //window.location.href="../view/modifReservation.html";
+        }
+
+    });
+}
+
+
+/*
+Permet de récupérer la facture à modifier
+Author : PINTO Dani
+*/
+function modifierLaFacture(callback)
+{
+    var idFacture = sessionStorage.getItem('idClientFacture');
+
+    $query= "SELECT `id_reservation`, `typeResarvation`, `prixReservation`, `etatReservation`, `dateDebut`, `dateFin`, `id_client`, `id_pole`, `id_employe` \n" +
+            "FROM `reservation` \n" +
+            "WHERE `id_client` = "+ idFacture +";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            alert("Problème d'affichage de la facture.");
+            console.log(err);
+            return;
+        }else{
+            callback(null, rows);
             //window.location.href="../view/modifReservation.html";
         }
 
@@ -329,6 +488,132 @@ function modifierReservationRestaurant()
 }
 
 /*
+Sert à modifier une réservation de restauration en base de données
+Author : PINTO Dani
+*/
+function getLaDemandeService(callback)
+{
+    var idDemande = sessionStorage.getItem('idDemandeService');
+
+    $query= "SELECT `id_service`, `dateService`, `objetService`, `demanderService`, `etatDemande`, `id_client`, `id_employe` \n" +
+        "FROM `servicedivers` \n" +
+        "WHERE `id_service` = "+ idDemande +";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de récupèration de la demande service.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Récupèration de la demande de service avec succès.");
+            callback(null,rows);
+        }
+
+    });
+}
+
+/*
+Sert à modifier une réservation de restauration en base de données
+Author : PINTO Dani
+*/
+function voirDemandeService(idDemande)
+{
+    sessionStorage.setItem('idDemandeService', idDemande);
+    window.location.href="../view/voirDemandeService.html";
+}
+
+/*
+Sert à valider la demande d'un service
+Author : PINTO Dani
+*/
+function validerLaDemandeService(idService)
+{
+
+    $query= "UPDATE `servicedivers` SET `etatDemande`=1 WHERE `id_service`="+idService+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de validation de la demande service.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Validation de la demande de service avec succès.");
+            window.location.href="../view/voirDemandeService.html";
+        }
+
+    });
+}
+
+/*
+Sert à valider la demande d'un service
+Author : PINTO Dani
+*/
+function enCoursLaDemandeService(idService)
+{
+
+    $query= "UPDATE `servicedivers` SET `etatDemande`=2 WHERE `id_service`="+idService+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de passage de la demande de service à 'En cours'.");
+            console.log(err);
+            return;
+        }else{
+            console.log("La demande de service a été passé à 'En cours' avec succès.");
+            window.location.href="../view/voirDemandeService.html";
+        }
+
+    });
+}
+
+/*
+Sert à refuser la demande d'un service
+Author : PINTO Dani
+*/
+function refuserLaDemandeService(idService)
+{
+
+    $query= "UPDATE `servicedivers` SET `etatDemande`=0 WHERE `id_service`="+idService+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de refus de la demande de service.");
+            console.log(err);
+            return;
+        }else{
+            console.log("La demande de service a été refusée avec succès.");
+            window.location.href="../view/voirDemandeService.html";
+        }
+
+    });
+}
+
+/*
+Permet de récupèrer le nom de l'utilisateur connecté
+Author : PINTO Dani
+*/
+function supprimerLigneFactures(idReservation)
+{
+    query = "DELETE FROM `reservation` WHERE `id_reservation` ="+ idReservation +";";
+
+    if(confirm('Voulez-vous supprimer cette ligne de réservation ?')) {
+        bdd.connection.query(query, function (err, result) {
+            if (err) {
+                callback(err, null);
+                alert('Erreur de suppression de cette ligne de facture.');
+                return;
+            } else {
+                window.location.reload(true);
+            }
+        });
+    }
+}
+
+/*
 Permet de récupèrer le nom de l'utilisateur connecté
 Author : PINTO Dani
 */
@@ -352,13 +637,12 @@ function getName(callback)
 Permet de créer un chart donut avec le tableau de données passé en paramètres
 Author : PINTO Dani
 */
-function drawChart(data)
+function drawChart(data, idDiv)
 {
-
-    var chart = AmCharts.makeChart( "chartdiv", {
+    AmCharts.makeChart( idDiv, {
         "type": "pie",
         "theme": "light",
-        "colors": ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000", "#57032A", "#CA9726", "#990000", "#4B0C25"],
+        "colors": ["#72de62", "#51e8c2", "#7ac1d1", "#e8e581"],
         "dataProvider": data,
         "titleField": "title",
         "valueField": "value",
@@ -418,6 +702,8 @@ function drawChartAvis(data,idDiv)
       });
 }
 
+
+
 /*
 Permet de récupérer les statistiques du nombre de couvert
 Author : PINTO Dani
@@ -441,16 +727,96 @@ function getStatsNbCouvert(callback)
 }
 
 /*
-Récupère toutes les alertes et servicesDivers
+Permet de récupérer les statistiques du nombre de couvert
 Author : PINTO Dani
 */
-function getLesAlertes(callback)
+function getStatsTables(callback)
+{
+
+    query = "SELECT COUNT(`reservation`.`id_reservation`) as nbTableReserver\n" +
+            "FROM `reservation`, `restaurant`\n" +
+            "WHERE `reservation`.`id_reservation` = `restaurant`.`id_reservation`\n" +
+            "AND DATE(now()) BETWEEN `reservation`.`dateDebut` AND `reservation`.`dateFin`\n" +
+            "AND `reservation`.`etatReservation` = 0\n" +
+            "AND `reservation`.`id_pole`=1;";
+    bdd.connection.query(query, function(err, result)
+    {
+        if (err) {
+            return console.log(err, null);
+        }else {
+            var nombreTable = result[0].nbTableReserver;
+            var tab = [{'title': 'Nombre de table réservées', 'value': nombreTable},{'title': 'Nombre de table total', 'value': 60}];
+
+            callback(null, tab);
+        }
+    });
+}
+
+/*
+Permet de récupérer le CA journalier
+Author : PINTO Dani
+*/
+function getCAJournalier(callback)
+{
+    query = "SELECT SUM(`prixReservation`) as CAJournalier \n" +
+            "FROM `reservation` \n" +
+            "WHERE `typeResarvation` != 'Validation facture';";
+
+    bdd.connection.query(query, function(err, result)
+    {
+        if (err) {
+            return console.log(err, null);
+        }else {
+            var CAJournalier = result[0].CAJournalier;
+            var tab = [{'title': 'CA Journalier', 'value': CAJournalier },{'title': 'Objectif', 'value': 100000}];
+
+            callback(null, tab);
+        }
+    });
+}
+
+/*
+Récupère toutes les demandes de servicesDivers
+Author : PINTO Dani
+*/
+function getLesServicesDivers(callback)
 {
     query = "SELECT `id_service`, `dateService`, `objetService`, `demanderService`, `etatDemande`, `client`.`id_client`, `reservation`.`id_employe`, `nomClient`, `prenomClient`, `nbLit`\n" +
             "FROM `serviceDivers`, `client`, `chambre`, `reservation`\n" +
             "WHERE `serviceDivers`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_client` = `client`.`id_client`\n" +
-            "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`";
+            "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`" +
+            "GROUP BY `client`.`id_client`;";
+
+    bdd.connection.query(query, function(err, rows)
+    {
+        if (err) {
+            console.log(err, null);
+            console.log('Problème de récupèration des alertes !');
+            return;
+        }else {
+            console.log('Récupèration des alertes avec succès !');
+            console.log(rows);
+            callback(null, rows);
+        }
+    });
+}
+
+/*
+Récupère toutes les alertes du pole "Restauration"
+Author : PINTO Dani
+*/
+function getLesAlertes(callback)
+{
+    var idPole = sessionStorage.getItem('idPole');
+    if(idPole==4){
+        query = "SELECT `id_rapport`, `typeRapport`, `messageRapport`, `etatRapport`, `id_pole`, `id_employe` \n" +
+                "FROM `rapport`;";
+    }else{
+        query = "SELECT `id_rapport`, `typeRapport`, `messageRapport`, `etatRapport`, `id_pole`, `id_employe` \n" +
+            "FROM `rapport` \n" +
+            "WHERE `id_pole` = "+ idPole +";";
+    }
 
     bdd.connection.query(query, function(err, rows)
     {
@@ -469,22 +835,49 @@ function getLesAlertes(callback)
 Permet d'ajouter une demande de service
 Author : PINTO Dani
 */
-function ajouterDemandeService()
+function ajouterRapport(objet, message,idPole)
 {
-    var objet = document.getElementById('objetDemande');
-    var message = document.getElementById('descriptionDemande');
+    /*
+    var objet = document.getElementById('objetDemande').value;
+    var message = document.getElementById('descriptionDemande').value;
+    var idPole = document.getElementById('poles').value;
+    */
+    var idEmploye = sessionStorage.getItem('idUtilisateur');
 
-    query = "INSERT INTO `serviceDivers`(`objetService`, `demanderService`) VALUES (" + objet + "," + message + ");";
-    bdd.connection.query(query, function(err, result)
+    $query = "INSERT INTO `rapport`(`typeRapport`, `messageRapport`, `id_pole`, `id_employe`) " +
+            "VALUES ('"+ objet +"','"+ message +"',"+ idPole +","+ idEmploye +");";
+
+    if(objet != '' && message != '') {
+        bdd.connection.query($query, function (err, result) {
+            if (err) {
+                return console.log(err, null);
+            } else {
+                alert('Demande envoyée avec succès !');
+                window.location.reload(true);
+            }
+        });
+    }else{
+        alert('Veuillez remplir tout les champs du formulaire.')
+    }
+}
+
+/*
+Récupère tout les poles
+Author : PINTO Dani
+*/
+function getLesPoles(callback)
+{
+    query = "SELECT `id_pole`, `nomPole` FROM `pole` ORDER by nomPole;";
+
+    bdd.connection.query(query, function(err, rows)
     {
         if (err) {
-            return console.log(err, null);
+            console.log(err, null);
+            console.log('Problème de récupèration des poles !');
+            return;
         }else {
-            var nombreDeCouvert = result[0].nbCouvert;
-            var nombreDeCouvertTwo = result[0].nbCouvertTwo;
-            var tab = [{'title': 'Nombre de couvert', 'value': nombreDeCouvert},{'title': 'Nombre de couvert two', 'value': nombreDeCouvertTwo}];
-
-            callback(null, tab);
+            console.log('Récupèration des poles avec succès !')
+            callback(null, rows);
         }
     });
 }
@@ -495,7 +888,7 @@ Author : PINTO Dani
 */
 function deconnexion(){
     sessionStorage.clear();
-    window.location.href="../index.html";
+    window.location.href="../index2.html";
 };
 
 /*

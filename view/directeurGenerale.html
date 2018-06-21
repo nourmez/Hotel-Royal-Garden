@@ -36,6 +36,26 @@
 
     <script src="../model/fct.js"></script>
 
+    <script>
+        getCAJournalier(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data, "chartDiv");
+            }
+        });
+
+        getStatsTables(function(err,data){
+            if (err) {
+                // error handling code goes here
+                console.log(err);
+            } else {
+                drawChart(data, "chartDivTable");
+            }
+        });
+    </script>
+
 </head>
 <body>
 
@@ -44,7 +64,11 @@
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <div id="monNom" style="color: white;size: 15px">
+            <logo></logo>
+            <script>
+                $('logo').load('logoApp.html');
+            </script>
+            <div id="monNom" class="pull-right" style="color: white;size: 15px">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -64,49 +88,14 @@
 
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="restauration.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <!-- <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="flot.html">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level
-                    </li> -->
-                    <li>
-                        <a href="creationMenu.html"><i class="fa fa-table fa-fw"></i> Menus</a>
-                    </li>
-                    <li>
-                        <a href="tarifTVA.html"><i class="fa fa-edit fa-fw"></i> Tarifs & TVA</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="alertes.html"><i class="fa fa-eye fa-fw"></i> Consulter les alertes</a>
-                            </li>
-                            <li>
-                                <a href="redigerAlerte.html"><i class="fa fa-edit fa-fw"></i> Rédiger une alertes</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <!--
-                    <li>
-                        <a href="alertes.html"><i class="fa fa-exclamation-triangle fa-fw"></i> Alertes</a>
-                    </li>
-                    -->
-                    <li>
-                        <a href="#" onclick="deconnexion()" id="deconnexion"><i class="fa fa-sign-out fa-fw"></i> Déconnexion</a>
-                    </li>
-                </ul>
+                <monMenu></monMenu>
+                <script>
+                    if(sessionStorage.getItem('idPole')==4){
+                        $('monMenu').load('menuDirecteur.html');
+                    }else{
+                        alert('Problème de données.');
+                    }
+                </script>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
@@ -118,80 +107,63 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Alertes</h1>
+                    <h1 class="page-header">Dashboard</h1>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div class="table-responsive">
-                                    <div id="ligneTab">
-                                        <script>
-                                            getLesAlertes(function(err,data){
-                                                if (err) {
-                                                    // error handling code goes here
-                                                    console.log(err);
-                                                } else {
-                                                    var ligne = document.getElementById('ligneTab');
-                                                    var contenu;
-
-                                                    contenu ='<table class="table">' +
-                                                        '<thead>' +
-                                                        '<tr>' +
-                                                        '<th>Chambre</th>' +
-                                                        '<th>Demandeur</th>' +
-                                                        '<th>Objet</th>' +
-                                                        '<th>Demande</th>' +
-                                                        '<th>Statut</th>' +
-                                                        '<th>État</th>' +
-                                                        '</tr>' +
-                                                        '</thead>' +
-                                                        '<tbody>';
-
-                                                    for(var i= 0; i < data.length; i++)
-                                                    {
-                                                        if(data[i].etatDemande == 0){
-                                                            contenu += '<tr class="danger">';
-                                                        }else if(data[i].etatDemande == 1){
-                                                            contenu += '<tr class="success">';
-                                                        }
-                                                        contenu += '<td>' + data[i].nbLit + '</td>';
-                                                        contenu += '<td class="col-md-2">' + data[i].nomClient;
-                                                        contenu += ' ' + data[i].prenomClient + '</td>';
-                                                        contenu += '<td class="col-md-2">' + data[i].objetService + '</td>';
-                                                        contenu += '<td>' + data[i].demanderService + '</td>';
-                                                        if(data[i].etatDemande == 0){
-                                                            contenu += "<td class='col-md-1' style='color: red;'><i class='fa fa-times fa-fw'></i></td>";
-                                                        }else if(data[i].etatDemande == 1){
-                                                            contenu += "<td class='col-md-1' style='color: green;'><i class='fa fa-check fa-fw'></i></td>";
-                                                        }
-                                                        contenu += '<td>Changement de l\'état</td>';
-                                                        contenu += '</tr>';
-                                                    }
-
-                                                    contenu += '</tbody>';
-                                                    contenu += '</table>';
-
-                                                    ligne.innerHTML = contenu;
-                                                }
-                                            });
-                                        </script>
-                                    </div>
+                                <div class="row">
+                                    <div id="chartDivTable" style="height: 20em"></div>
                                 </div>
-
+                                <!-- INSERT ANCIEN DASHBOARD -->
                             </div>
                         </div>
                     </div>
-                    <!-- /.table-responsive -->
-                </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="chartDiv" style="height: 20em"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <!-- /.col-lg-12 -->
-            </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div id="chartDivTwo"></div>
+                                    TEST
+                                </div>
+                                <!-- INSERT ANCIEN DASHBOARD -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        TEST
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
             <!-- /.row -->
-        </div>
+            </div>
         <!-- /.container-fluid -->
-    </div>
+        </div>
     <!-- /#page-wrapper -->
-
+    </div>
 </div>
 <!-- /#wrapper -->
 
@@ -207,8 +179,65 @@
 <!-- Custom Theme JavaScript -->
 <script src="../js/startmin.js"></script>
 
-<!-- Import controller restauration -->
-<script src="../controller/c_restauration.js"></script>
+<!--
+                                <div class="table-responsive">
+                                    <div id="ligneTab">
+                                        <script>
+                                            getLesServicesDivers(function(err,data){
+                                                if (err) {
+                                                    // error handling code goes here
+                                                    console.log(err);
+                                                } else {
+                                                    var ligne = document.getElementById('ligneTab');
+                                                    var contenu;
 
+                                                    contenu ='<table class="table">' +
+                                                        '<thead>' +
+                                                        '<tr>' +
+                                                        '<th>Chambre</th>' +
+                                                        '<th>Demandeur</th>' +
+                                                        '<th>Objet</th>' +
+                                                        '<th>Demande</th>' +
+                                                        '<th>Statut</th>' +
+                                                        '</tr>' +
+                                                        '</thead>' +
+                                                        '<tbody>';
+
+                                                    for(var i= 0; i < data.length; i++)
+                                                    {
+                                                        if(data[i].etatDemande == 0){
+                                                            contenu += '<tr class="danger">';
+                                                        }else if(data[i].etatDemande == 1){
+                                                            contenu += '<tr class="success">';
+                                                        }else if(data[i].etatDemande == 2){
+                                                            contenu += '<tr class="warning">';
+                                                        }
+                                                        contenu += '<td>' + data[i].nbLit + '</td>';
+                                                        contenu += '<td class="col-md-2">' + data[i].nomClient;
+                                                        contenu += ' ' + data[i].prenomClient + '</td>';
+                                                        contenu += '<td class="col-md-2"><a onclick="voirDemandeService('+data[i].id_service+')">' + data[i].objetService + '</a></td>';
+                                                        //contenu += '<td>' + data[i].demanderService + '</td>';
+                                                        contenu += `<td> ${data[i].demanderService} </td>`;
+                                                        if(data[i].etatDemande == 0){
+                                                            contenu += "<td class='col-md-1' style='color: red;'><i class='fa fa-times fa-fw'></i></td>";
+                                                        }else if(data[i].etatDemande == 1){
+                                                            contenu += "<td class='col-md-1' style='color: green;'><i class='fa fa-check fa-fw'></i></td>";
+                                                        }else{
+                                                            contenu += "<td class='col-md-1' style='color: orange;'><i class='fa fa-clock-o fa-fw'></i></td>";
+                                                        }
+                                                        contenu += '</tr>';
+                                                    }
+
+                                                    contenu += '</tbody>';
+                                                    contenu += '</table>';
+
+                                                    ligne.innerHTML = contenu;
+                                                }
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>-->
 </body>
 </html>
+
