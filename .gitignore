@@ -1,4 +1,4 @@
 node_modules/
 .idea/
 .idea/vcs.xml
-vendor/
+mode_modules library root
