@@ -372,6 +372,51 @@ function drawChart(data)
         }
     } );
 }
+/*
+Permet de créer un chart column avec le tableau de données passé en paramètres
+Author : MEZRANI Nourhene
+*/
+
+function drawChartAvis(data,idDiv)
+{
+      var chart = AmCharts.makeChart(idDiv, {
+        "type": "serial",
+          "theme": "light",
+          "dataProvider": data,
+          "valueAxes": [ {
+            "gridColor": "#FFFFFF",
+            "gridAlpha": 0.2,
+            "dashLength": 0,
+            "title":"Nombres des clients"
+          } ],
+          "gridAboveGraphs": true,
+          "startDuration": 1,
+          "graphs": [ {
+            "balloonText": "[[category]]: <b>[[value]]</b>",
+            "fillColors": '#72de62',
+            "fillAlphas": 0.8,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "visits"
+          } ],
+          "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+          },
+          "categoryField": "Notes",
+          "categoryAxis": {
+            "gridPosition": "start",
+            "gridAlpha": 0,
+            "tickPosition": "start",
+            "tickLength": 20
+          },
+          "export": {
+            "enabled": true
+          }
+
+      });
+}
 
 /*
 Permet de récupérer les statistiques du nombre de couvert
@@ -453,10 +498,14 @@ function deconnexion(){
     window.location.href="../index.html";
 };
 
+/*
+Select tout les resrvations chambres
+Author : Mezrani Nourhene
+*/
 
 function lesReservations() {
 
-    querygetLesReservtions = "SELECT r.id_reservation, cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre, r.annulationReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation = r.id_reservation AND cl.id_client = r.id_client AND DATE(now()) >= r.dateDebut AND DATE(now()) <=r.dateFin AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
+    querygetLesReservtions = "SELECT r.id_reservation, cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre, r.etatReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation = r.id_reservation AND cl.id_client = r.id_client AND DATE(now()) >= r.dateDebut AND DATE(now()) <=r.dateFin AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
 
     bdd.connection.query(querygetLesReservtions, function (err, rows) {
 
@@ -468,12 +517,17 @@ function lesReservations() {
         else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th id="">'+rows[i].id_chambre+'</th><th id="">'+rows[i].typeChambre+'</th><th id="">'+rows[i].nbLit+'</th><th id="">'+rows[i].dateDebut+'</th><th id="">'+rows[i].dateFin+'</th><th id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th id="">'+rows[i].annulationReservation+'</th><th id=""><button onclick="modifReservationChambre('+rows[i].id_reservation+')">Modifier</button><button onclick="supprimeReservation('+rows[i].id_reservation+')">Supprimer</button></th></tr>';
+                tab= tab+'<tr><th id="">'+rows[i].id_chambre+'</th><th id="">'+rows[i].typeChambre+'</th><th id="">'+rows[i].nbLit+'</th><th id="">'+rows[i].dateDebut+'</th><th id="">'+rows[i].dateFin+'</th><th id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th id="">'+rows[i].etatReservation+'</th><th id=""><a onclick="modifReservationChambre('+rows[i].id_reservation+')"><i class="fa fa-edit fa-fw"></i></a><a onclick="supprimeReservation('+rows[i].id_reservation+')"><i class="fa fa-close fa-fw"></i></a</th></tr>';
             }
             return document.getElementById('tableaureservation').innerHTML = tab;
         }
     });
 }
+
+/*
+Select tout les agences
+Author : Mezrani Nourhene
+*/
 
 function lesAgences(){
     querygetLesAgences = "SELECT * FROM agenceVoyage WHERE id_employe='2';";
@@ -487,13 +541,18 @@ function lesAgences(){
         }else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th>'+rows[i].id_agence+'</th><th>'+rows[i].nomAgence+'</th><th>'+rows[i].nbClientAgence+'</th><th><button onclick="modifGestionAgences('+rows[i].id_agence+')">Modifier</button><button onclick="supprimeAgences('+rows[i].id_agence+')">Supprimer</button></th></tr>';
+                tab= tab+'<tr><th>'+rows[i].id_agence+'</th><th>'+rows[i].nomAgence+'</th><th>'+rows[i].responsableAgence+'</th><th>'+rows[i].mailAgence+'</th><th>'+rows[i].telephoneAgence+'</th><th>'+rows[i].nbClientAgence+'</th><th><a onclick="modifGestionAgences('+rows[i].id_agence+')"><i class="fa fa-edit fa-fw"></i></a><a onclick="supprimeAgences('+rows[i].id_agence+')"><i class="fa fa-close fa-fw"></i></a></th></tr>';
 
             }
             return document.getElementById('tableauagence').innerHTML = tab;
         }
     });
 }
+
+/*
+suppression tout les agences
+Author : Mezrani Nourhene
+*/
 
 function supprimeAgences(argument) {
     if(confirm("Voulez vous vraiment supprimer cette agence ?")){
@@ -504,6 +563,12 @@ function supprimeAgences(argument) {
     }
     return window.location.reload();
 }
+
+/*
+suppression tout les resrvations chambres
+Author : Mezrani Nourhene
+*/
+
 function supprimeReservation(argument) {
     if(confirm("Voulez vous vraiment supprimer cette reservation ?")){
 
@@ -514,12 +579,21 @@ function supprimeReservation(argument) {
     return window.location.reload();
 }
 
+/*
+confirmation avant modification tout les agences
+Author : Mezrani Nourhene
+*/
+
 function modifGestionAgences(argument){
     if(confirm("Voulez vous vraiment modifier cette agence ?")){
         sessionStorage.setItem('idAgences', argument);
         window.location.href ='modifGestionAgences.html';
     }
 }
+/*
+afficher valeurs a modifier tout les agences
+Author : Mezrani Nourhene
+*/
 function modifGestionAgencesM(){
     querygetAgence = "SELECT * FROM agenceVoyage WHERE id_agence="+sessionStorage.getItem('idAgences');
 
@@ -532,12 +606,20 @@ function modifGestionAgencesM(){
         else {
             document.getElementById('aNombre').value = rows[0].id_agence;
             document.getElementById('aNom').value = rows[0].nomAgence;
+            document.getElementById('aResponsable').value = rows[0].responsableAgence;
+            document.getElementById('aE-mail').value = rows[0].mailAgence;
+            document.getElementById('aTelephone').value = rows[0].telephoneAgence;
             document.getElementById('cNombre').value = rows[0].nbClientAgence;
         }
     });
 
     //bdd.connection.end();
 }
+
+/*
+confirmation avant modification tout les resrvations chambres
+Author : Mezrani Nourhene
+*/
 
 function modifReservationChambre(argument){
     if(confirm("Voulez vous vraiment modifier cette réservation ?")){
@@ -546,9 +628,14 @@ function modifReservationChambre(argument){
     window.location.href ='modifReservationChambre.html';
 }
 
+/*
+afficher valeurs a modifier tout les resrvations chambres
+Author : Mezrani Nourhene
+
+*/
 function modifReservationChambreM(){
 
-    querygetReservtion= "SELECT cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre,   r.annulationReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation ="+sessionStorage.getItem('idChambre')+" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
+    querygetReservtion= "SELECT cl.nomClient, cl.prenomClient, ch.nbLit, ch.typeChambre,   r.etatReservation, ch.id_chambre, r.dateDebut, r.dateFin FROM reservation r, pole p,  employe e, chambre ch, client cl WHERE ch.id_reservation ="+sessionStorage.getItem('idChambre')+" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
 
     bdd.connection.query(querygetReservtion, function (err, rows) {
 
@@ -565,17 +652,25 @@ function modifReservationChambreM(){
             document.getElementById('sDate').value = rows[0].dateFin;
             document.getElementById('nClient').value = rows[0].nomClient;
             document.getElementById('pClient').value = rows[0].prenomClient;
-            document.getElementById('sReservation').value = rows[0].annulationReservation;
+            document.getElementById('sReservation').value = rows[0].etatReservation;
         }
     })
 }
 
+/*
+modification  l'agences
+Author : Mezrani Nourhene
+*/
+
 function modifAgences(){
     var nomAgence = document.getElementById('aNom').value;
+    var responsableAgence = document.getElementById('aResponsable').value;
+    var mailAgence = document.getElementById('aE-mail').value;
+    var telephoneAgence = document.getElementById('aTelephone').value;
     var nbClientAgence = document.getElementById('cNombre').value;
     var idAgence = document.getElementById('aNombre').value;
 
-    queryModification="UPDATE agenceVoyage SET `nomAgence`='"+ nomAgence +"',`nbClientAgence`="+ nbClientAgence +" WHERE `id_agence`=" + idAgence + ";";
+    queryModification="UPDATE agenceVoyage SET `nomAgence`='"+ nomAgence +"',`responsableAgence`='"+ responsableAgence +"',`mailAgence`='"+ mailAgence +"',`telephoneAgence`="+ telephoneAgence +",`nbClientAgence`="+ nbClientAgence +" WHERE `id_agence`=" + idAgence + ";";
 
     if(confirm("Voulez vous vraiment modifier cette agence ?")) {
         bdd.connection.query(queryModification, function (err, rows) {
@@ -595,8 +690,13 @@ function modifAgences(){
     //bdd.connection.end();
 }
 
+/*
+modification  chambre
+Author : Mezrani Nourhene
+*/
+
 function modifChambre(){
-    queryModificationC="UPDATE reservation r, pole p,  employe e, chambre ch, client cl SET cl.nomClient='"+document.getElementById('nClient').value +"', cl.prenomClient='"+document.getElementById('pClient').value +"', ch.nbLit='"+document.getElementById('lNombre').value +"', ch.typeChambre='"+document.getElementById('cType').value +"', r.annulationReservation='"+document.getElementById('sReservation').value +"', r.dateDebut='"+document.getElementById('eDate').value +"', r.dateFin='"+document.getElementById('sDate').value +"' WHERE r.id_reservation="+sessionStorage.getItem('idChambre')+" AND ch.id_chambre="+document.getElementById('cNombre').value +" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
+    queryModificationC="UPDATE reservation r, pole p,  employe e, chambre ch, client cl SET cl.nomClient='"+document.getElementById('nClient').value +"', cl.prenomClient='"+document.getElementById('pClient').value +"', ch.nbLit='"+document.getElementById('lNombre').value +"', ch.typeChambre='"+document.getElementById('cType').value +"', r.etatReservation='"+document.getElementById('sReservation').value +"', r.dateDebut='"+document.getElementById('eDate').value +"', r.dateFin='"+document.getElementById('sDate').value +"' WHERE r.id_reservation="+sessionStorage.getItem('idChambre')+" AND ch.id_chambre="+document.getElementById('cNombre').value +" AND ch.id_reservation =r.id_reservation AND cl.id_client = r.id_client AND p.id_pole= r.id_pole AND P.nomPole='Hébergement' AND e.id_employe = r.id_employe";
 
     if(confirm('Voulez-vous vraiment modifier cette réservation ?')) {
         bdd.connection.query(queryModificationC, function (err, rows) {
@@ -612,4 +712,73 @@ function modifChambre(){
             }
         })
     }
+}
+
+/*
+Permet de récupérer les statistiques du nombre de remblisage
+Author : Mezrani Nourhene
+*/
+function getStatsRemplissage(callback)
+{
+
+    query = "SELECT COUNT(id_reservation)AS reservation FROM `reservation` WHERE `etatReservation`='1' AND `typeResarvation`='Hebergement';";
+    bdd.connection.query(query, function(err, result)
+    {
+        if (err) {
+            return console.log(err, null);
+        }else {
+            var nombreDeReservation = result[0].reservation;
+            var tab = [{'title': 'Nombre de chambre reserver', 'value': nombreDeReservation},{'title': 'Nombre de chambre', 'value':60}];
+
+            callback(null, tab);
+        }
+    });
+}
+/*
+Permet de récupérer les statistiques du nombre d'avis
+Author : Mezrani Nourhene
+*/
+
+function getStatsAvis(callback)
+{
+
+    query = "SELECT noteHebergement,COUNT( `noteHebergement`) AS hebergement FROM `evaluation` GROUP BY `noteHebergement`;";
+    bdd.connection.query(query, function(err, result)
+    {
+        if (err) {
+            return console.log(err, null);
+        }else {
+        var note =[0,0,0,0,0];
+        for(var i = 0; i <result.length; i++){
+        note[i] = result[i].hebergement;
+        }
+            var tab =[
+                {
+                    "Notes":"1",
+                    "visits":note[0],
+                },
+                {
+                    "Notes":"2",
+                    "visits":note[1],
+                },
+                {
+                    "Notes":"3",
+                    "visits":note[2],
+                },
+                {
+                    "Notes":"4",
+                    "visits":note[3],
+                },
+                {
+                    "Notes":"5",
+                    "visits":note[4],
+                }];
+
+
+/*                     result[i].noteHebergement,
+                                        "visits": result[i].hebergement ,*/
+                };
+
+        callback(null, tab);
+    });
 }
