@@ -127,27 +127,27 @@
                                     </div>
                                 </div>
                                 <script>
-                                    getLaDemandeService(function(err,data){
+                                    getLeRapport(function(err,data){
                                         if (err) {
                                             // error handling code goes here
                                             console.log(err);
                                         } else {
                                             for(var i= 0; i < data.length; i++)
                                             {
-                                                document.getElementById('objetDemandeService').innerHTML = data[i].objetService;
-                                                document.getElementById('descriptionDemandeService').innerHTML = data[i].demanderService;
+                                                document.getElementById('objetDemandeService').innerHTML = data[i].typeRapport;
+                                                document.getElementById('descriptionDemandeService').innerHTML = data[i].messageRapport;
 
-                                                if (data[i].etatDemande==3){
-                                                    document.getElementById('boutonValider').innerHTML = '<button type="submit" onclick="validerLaDemandeService('+data[i].id_service+')" class="btn btn-success" id="valid">Valider</button>';
-                                                    document.getElementById('boutonEnCours').innerHTML = '<button type="submit" onclick="enCoursLaDemandeService('+data[i].id_service+')" class="btn btn-warning" id="inProgress">En cours</button>';
-                                                    document.getElementById('boutonRefuser').innerHTML = '<button type="submit" onclick="refuserLaDemandeService('+data[i].id_service+')" class="btn btn-danger" id="refuse">Refusée</button>';
-                                                }else if(data[i].etatDemande==2){
-                                                    document.getElementById('boutonValider').innerHTML = '<button type="submit" onclick="validerLaDemandeService('+data[i].id_service+')" class="btn btn-success" id="valid">Valider</button>';
-                                                    document.getElementById('boutonRefuser').innerHTML = '<button type="submit" onclick="refuserLaDemandeService('+data[i].id_service+')" class="btn btn-danger" id="refuse">Refusée</button>';
-                                                }else if(data[i].etatDemande==1){
-                                                    document.getElementById('dejaValider').innerHTML = '<font style="color: green">Demande validée.</font>';
+                                                if (data[i].etatRapport==3){
+                                                    document.getElementById('boutonValider').innerHTML = '<button type="submit" onclick="validerEtatRapport('+data[i].id_rapport+')" class="btn btn-success" id="valid">Valider</button>';
+                                                    document.getElementById('boutonEnCours').innerHTML = '<button type="submit" onclick="enCoursEtatRapport('+data[i].id_rapport+')" class="btn btn-warning" id="inProgress">En cours</button>';
+                                                    document.getElementById('boutonRefuser').innerHTML = '<button type="submit" onclick="refuserEtatRapport('+data[i].id_rapport+')" class="btn btn-danger" id="refuse">Refusée</button>';
+                                                }else if(data[i].etatRapport==2){
+                                                    document.getElementById('boutonValider').innerHTML = '<button type="submit" onclick="validerLaDemandeService('+data[i].id_rapport+')" class="btn btn-success" id="valid">Valider</button>';
+                                                    document.getElementById('boutonRefuser').innerHTML = '<button type="submit" onclick="refuserLaDemandeService('+data[i].id_rapport+')" class="btn btn-danger" id="refuse">Refusée</button>';
+                                                }else if(data[i].etatRapport==1){
+                                                    document.getElementById('dejaValider').innerHTML = '<font style="color: green">Rapport validée.</font>';
                                                 }else{
-                                                    document.getElementById('dejaValider').innerHTML = '<font style="color: red">Demande refusée.</font>';
+                                                    document.getElementById('dejaValider').innerHTML = '<font style="color: red">Rapport refusée.</font>';
                                                 }
                                             }
                                         }

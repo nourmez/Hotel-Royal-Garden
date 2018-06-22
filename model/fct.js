@@ -163,7 +163,7 @@ function creerMenu()
                 alert('Veuillez remplir tout les champs.');
                 return;
             } else {
-                console.log("Création du menu avec succés !");
+                alert("Création du menu avec succés !");
             }
 
             //callback(rows);
@@ -550,6 +550,110 @@ function validerLaDemandeService(idService)
 Sert à valider la demande d'un service
 Author : PINTO Dani
 */
+function validerEtatRapport(idRapport)
+{
+
+    $query= "UPDATE `rapport` SET `etatRapport`=1 WHERE `id_rapport`="+idRapport+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de validation du rapport.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Validation du rapport avec succès.");
+            window.location.href="../view/voirAlerte.html";
+        }
+
+    });
+}
+
+/*
+Sert à valider la demande d'un service
+Author : PINTO Dani
+*/
+function enCoursEtatRapport(idRapport)
+{
+
+    $query= "UPDATE `rapport` SET `etatRapport`=2 WHERE `id_rapport`="+idRapport+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de validation du rapport.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Validation du rapport avec succès.");
+            window.location.href="../view/voirAlerte.html";
+        }
+
+    });
+}
+
+/*
+Sert à valider la demande d'un service
+Author : PINTO Dani
+*/
+function refuserEtatRapport(idRapport)
+{
+
+    $query= "UPDATE `rapport` SET `etatRapport`=0 WHERE `id_rapport`="+idRapport+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de refus du rapport.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Validation du refus du rapport avec succès.");
+            window.location.href="../view/voirAlerte.html";
+        }
+
+    });
+}
+
+/*
+Sert à pouvoir modifier un rapport
+Author : PINTO Dani
+*/
+function voirRapport(idRapport)
+{
+    sessionStorage.setItem('idRapport', idRapport);
+    window.location.href="../view/voirAlerte.html";
+}
+
+/*
+Sert à consulter un rapport
+Author : PINTO Dani
+*/
+function getLeRapport(callback)
+{
+    var idRapport = sessionStorage.getItem('idRapport');
+
+    $query= "SELECT `id_rapport`, `typeRapport`, `messageRapport`, `etatRapport`, `id_pole`, `id_employe` FROM `rapport` \n" +
+            "WHERE `id_rapport` ="+idRapport+";";
+
+    bdd.connection.query($query, function (err, rows, fields) {
+
+        if (err) {
+            console.log("Problème de récupèration du rapport.");
+            console.log(err);
+            return;
+        }else{
+            console.log("Récupèration du rapport avec succès.");
+            callback(null,rows);
+        }
+
+    });
+}
+
+/*
+Sert à valider la demande d'un service
+Author : PINTO Dani
+*/
 function enCoursLaDemandeService(idService)
 {
 
@@ -910,7 +1014,18 @@ function lesReservations() {
         else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th id="">'+rows[i].id_chambre+'</th><th id="">'+rows[i].typeChambre+'</th><th id="">'+rows[i].nbLit+'</th><th id="">'+rows[i].dateDebut+'</th><th id="">'+rows[i].dateFin+'</th><th id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</th><th id="">'+rows[i].etatReservation+'</th><th id=""><a onclick="modifReservationChambre('+rows[i].id_reservation+')"><i class="fa fa-edit fa-fw"></i></a><a onclick="supprimeReservation('+rows[i].id_reservation+')"><i class="fa fa-close fa-fw"></i></a</th></tr>';
+                tab= tab+'<tr>' +
+                        '<td id="">Nº '+rows[i].id_chambre+'</td>' +
+                        '<td id="">'+rows[i].typeChambre+'</td>' +
+                        '<td id="">'+rows[i].nbLit+'</td>' +
+                        '<td id="">'+rows[i].dateDebut+'</td>' +
+                        '<td id="">'+rows[i].dateFin+'</td>' +
+                        '<td id="">'+rows[i].nomClient+' '+rows[i].prenomClient+'</td>' +
+                        '<td id="">'+rows[i].etatReservation+'</td>' +
+                        '<td id="">' +
+                        '<i onclick="modifReservationChambre('+rows[i].id_reservation+')" class="fa fa-edit fa-fw"></i>' +
+                        '<i onclick="supprimeReservation('+rows[i].id_reservation+')" class="fa fa-close fa-fw"></i>' +
+                        '</td></tr>';
             }
             return document.getElementById('tableaureservation').innerHTML = tab;
         }
@@ -934,7 +1049,18 @@ function lesAgences(){
         }else {
             var tab="";
             for (var i = 0; i <rows.length; i++) {
-                tab= tab+'<tr><th>'+rows[i].id_agence+'</th><th>'+rows[i].nomAgence+'</th><th>'+rows[i].responsableAgence+'</th><th>'+rows[i].mailAgence+'</th><th>'+rows[i].telephoneAgence+'</th><th>'+rows[i].nbClientAgence+'</th><th><a onclick="modifGestionAgences('+rows[i].id_agence+')"><i class="fa fa-edit fa-fw"></i></a><a onclick="supprimeAgences('+rows[i].id_agence+')"><i class="fa fa-close fa-fw"></i></a></th></tr>';
+                tab= tab+'<tr>' +
+                            '<td>Nº '+rows[i].id_agence+'</td>' +
+                            '<td>'+rows[i].nomAgence+'</td>' +
+                            '<td>'+rows[i].responsableAgence+'</td>' +
+                            '<td>'+rows[i].mailAgence+'</td>' +
+                            '<td>'+rows[i].telephoneAgence+'</td>' +
+                            '<td>'+rows[i].nbClientAgence+'</td>' +
+                            '<td>' +
+                            '<i onclick="modifGestionAgences('+rows[i].id_agence+')" class="fa fa-edit fa-fw"></i>' +
+                            '<i onclick="supprimeAgences('+rows[i].id_agence+')" class="fa fa-close fa-fw"></i>' +
+                            '</td>' +
+                            '</tr>';
 
             }
             return document.getElementById('tableauagence').innerHTML = tab;

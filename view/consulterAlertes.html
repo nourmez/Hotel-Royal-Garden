@@ -48,7 +48,7 @@
             <script>
                 $('logo').load('logoApp.html');
             </script>
-            <div id="monNom" class="pull-right" style="color: white;size: 15px">
+            <div id="monNom" class="pull-right" style="color: #28a745;font-size:30px;font-family: Roboto">
                 <a class="navbar-brand" href="index.html">
                     <script>
                         getName(function(err,data){
@@ -58,7 +58,7 @@
                             } else {
                                 // code to execute on data retrieval
                                 var outputDiv = document.getElementById('monNom');
-                                outputDiv.innerHTML = 'Bienvenue, ' + data;
+                                outputDiv.innerHTML = '&nbsp;Bienvenue, ' + data;
                             }
                         });
                     </script>
@@ -111,7 +111,7 @@
                                                     contenu ='<table class="table">' +
                                                         '<thead>' +
                                                         '<tr>' +
-                                                        '<th>Client</th>' +
+                                                        '<th>Numéro rapport</th>' +
                                                         '<th>Objet</th>' +
                                                         '<th>Demande</th>' +
                                                         '<th>Statut</th>' +
@@ -130,9 +130,9 @@
                                                             contenu += '<tr class="warning">';
                                                         }
 
-                                                        contenu += '<td>' + data[i].id_rapport + '</td>';
+                                                        contenu += '<td class="col-md-2">Nº<a class="noDeco" onclick="voirRapport('+data[i].id_rapport+')">' + data[i].id_rapport + '</a></td>';
                                                         contenu += '<td class="col-md-2">' + data[i].typeRapport + '</td>';
-                                                        contenu += '<td class="col-md-2">' + data[i].messageRapport + '</td>';
+                                                        contenu += '<td>' + data[i].messageRapport + '</td>';
                                                         //contenu += '<td>' + data[i].demanderService + '</td>';
                                                         //contenu += `<td> ${data[i].demanderService} </td>`;
 
@@ -142,7 +142,10 @@
                                                             contenu += "<td class='col-md-1' style='color: green;'><i class='fa fa-check fa-fw'></i></td>";
                                                         }else if(data[i].etatRapport == 2){
                                                             contenu += "<td class='col-md-1' style='color: orange;'><i class='fa fa-clock-o fa-fw'></i></td>";
+                                                        } else if(data[i].etatRapport == 3){
+                                                            contenu += "<td class='col-md-1' style='color: blue;'><i class='fa fa-plus-square-o fa-fw'></i></td>";
                                                         }
+
                                                         contenu += '</tr>';
                                                     }
 
