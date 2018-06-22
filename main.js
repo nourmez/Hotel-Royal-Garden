@@ -18,7 +18,7 @@ function createWindow () {
         width: 1280,
         height: 800,
         resizable: false,
-        icon: path.join(__dirname, 'assets/logoapp.icns'),
+        icon: path.join(__dirname, 'assets/logoapp.ico'),
         title: "Royal Garden"
     })
 
