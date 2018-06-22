@@ -127,10 +127,10 @@
                                                         }else if(data[i].etatDemande == 3){
                                                             contenu += '<tr class="info">';
                                                         }
-                                                        contenu += '<td>' + data[i].nbLit + '</td>';
+                                                        contenu += '<td>Nº ' + data[i].nbLit + '</td>';
                                                         contenu += '<td class="col-md-2">' + data[i].nomClient;
                                                         contenu += ' ' + data[i].prenomClient + '</td>';
-                                                        contenu += '<td class="col-md-2"><a onclick="voirDemandeService('+data[i].id_service+')">' + data[i].objetService + '</a></td>';
+                                                        contenu += '<td class="col-md-2"><a class="noDeco" onclick="voirDemandeService('+data[i].id_service+')">' + data[i].objetService + '</a></td>';
                                                         //contenu += '<td>' + data[i].demanderService + '</td>';
                                                         contenu += `<td> ${data[i].demanderService} </td>`;
                                                         if(data[i].etatDemande == 0){

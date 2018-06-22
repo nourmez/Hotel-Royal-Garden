@@ -86,30 +86,75 @@
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
-
             <div class="row">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Modification d'une agence de voyages</h1>
+                    </div>
                     <div class="col-lg-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading page-header">
-                                <h3>Modification d'une agence de voyages</h3>
-                            </div>
                             <div class="panel-body">
                                 <form method="post" action="">
-                                    <label>Nombre de l'Agence :</label> <input type="text" name="aNombre" id="aNombre"  disabled/>
-                                </br>
-                                <label>Nom de l'Agence :</label> <input type="text" name="aNom" id="aNom" >
-                                </br>
-                                <label>Responsable de l'Agence :</label> <input type="text" name="aResponsable" id="aResponsable" >
-                                </br>
-                                <label>E-mail de l'Agence< :</label> <input type="text" name="aE-mail" id="aE-mail" >
-                                </br>
-                                    <label>Telephone de l'Agence :</label> <input type="text" name="aTelephone" id="aTelephone" >
-                                    </br>
-                                    <label>Nombre des clients :</label> <input type="text" name="cNombre" id="cNombre" >
-                                </br>
-                                <button  type="submit" onclick="modifAgences()">Modifier</button>
-                                <a href="gestionAgences.html"><input type="button" value="Annuler"></a>
-
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="aNombre">Numéro de l'agence :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" name="aNombre" id="aNombre"  disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="aNom">Nom de l'agence :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" name="aNom" id="aNom"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="aResponsable">Responsable :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" name="aResponsable" id="aResponsable"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="aE-mail">E-mail :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" name="aE-mail" id="aE-mail"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="aTelephone">Telephone :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" name="aTelephone" id="aTelephone"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Nombre de clients :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" name="cNombre" id="cNombre"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <button type="submit" onclick="modifAgences()">Modifier</button>
+                                            <a href="gestionAgences.html"><input type="button" value="Annuler" style="color: black"/></a>
+                                        </div>
+                                        <!--
+                                        <div class="col-md-3">
+                                            <button href="gestionAgences.html" type="button">Annuler</button>
+                                            <a href="gestionAgences.html"><input type="button" value="Annuler"></a>
+                                        </div>
+                                        -->
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -117,8 +162,9 @@
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
-        </div>
+            </div>
             <!-- /.container-fluid -->
+        </div>
     </div>
 </div>
         <!-- /#page-wrapper -->
