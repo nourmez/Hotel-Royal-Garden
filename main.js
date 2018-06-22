@@ -18,11 +18,10 @@ function createWindow () {
         width: 1280,
         height: 800,
         resizable: false,
-        icon: path.join(__dirname, 'assets/Logo.ico'),
+        icon: path.join(__dirname, 'assets/Logo.icns'),
         title: "Royal Garden"
     })
 
-console.log(path.join(__dirname, 'assets/logoapp.icns'));
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index2.html'),
