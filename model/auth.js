@@ -38,6 +38,11 @@ module.exports = class Auth {
                     window.location.href = "./view/directeurGenerale.html";
                     bdd.connection.end();
                 }
+                else if (rows[0].id_pole == 8) {
+
+                    window.location.href = "./view/employe.html";
+                    bdd.connection.end();
+                }
             }
         });
     }
