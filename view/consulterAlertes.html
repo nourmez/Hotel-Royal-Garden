@@ -78,6 +78,8 @@
                         $('monMenu').load('menuHebergement.html');
                     }else if(sessionStorage.getItem('idPole')==3){
                         $('monMenu').load('menuReception.html');
+                    }else{
+                        $('monMenu').load('menuEmploye.html');
                     }
                 </script>
             </div>
@@ -128,6 +130,8 @@
                                                             contenu += '<tr class="success">';
                                                         }else if(data[i].etatRapport == 2){
                                                             contenu += '<tr class="warning">';
+                                                        }else if(data[i].etatRapport == 3){
+                                                            contenu += '<tr class="info">';
                                                         }
 
                                                         contenu += '<td class="col-md-2">Nº<a class="noDeco" onclick="voirRapport('+data[i].id_rapport+')">' + data[i].id_rapport + '</a></td>';

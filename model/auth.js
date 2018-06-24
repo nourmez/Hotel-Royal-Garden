@@ -42,6 +42,9 @@ module.exports = class Auth {
 
                     window.location.href = "./view/employe.html";
                     bdd.connection.end();
+                }else{
+                    window.location.href = "./view/redigerAlerte.html";
+                    bdd.connection.end();
                 }
             }
         });
