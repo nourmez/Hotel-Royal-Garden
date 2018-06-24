@@ -40,7 +40,7 @@ module.exports = class Auth {
                 }
                 else if (rows[0].id_pole == 8) {
 
-                    window.location.href = "./view/employe.html";
+                    window.location.href = "./view/redigerAlerte.html";
                     bdd.connection.end();
                 }
             }

@@ -889,8 +889,7 @@ function getLesServicesDivers(callback)
             "FROM `serviceDivers`, `client`, `chambre`, `reservation`\n" +
             "WHERE `serviceDivers`.`id_client` = `client`.`id_client`\n" +
             "AND `reservation`.`id_client` = `client`.`id_client`\n" +
-            "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`" +
-            "GROUP BY `client`.`id_client`;";
+            "AND `reservation`.`id_reservation` = `chambre`.`id_reservation`;";
 
     bdd.connection.query(query, function(err, rows)
     {
